@@ -387,7 +387,7 @@ section { padding: 96px 0; }
 .chargeback-flow .container { position: relative; z-index: 1; }
 .cb-steps {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
-  margin-bottom: 56px; position: relative;
+  align-items: start; margin-bottom: 56px; position: relative;
 }
 .cb-steps::before {
   content: ''; position: absolute;
@@ -945,7 +945,6 @@ section { padding: 96px 0; }
     <h2 class="section-title fade-in">Chargeback? A IA responde por você.</h2>
     <p class="section-sub fade-in">Integração direta com Shopify Payments — do alerta à evidência, tudo automático.</p>
     <div class="cb-steps">
-      <div class="cb-steps-line" aria-hidden="true"></div>
       <div class="cb-step fade-in">
         <div class="cb-step-icon" aria-hidden="true">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
