@@ -206,7 +206,7 @@ section { padding: 96px 0; }
 /* ===== SOCIAL PROOF ===== */
 .social-proof { padding: 64px 0 80px; }
 .social-metrics {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
   margin-bottom: 56px;
 }
 .social-metric {
@@ -246,7 +246,7 @@ section { padding: 96px 0; }
 /* ===== PROBLEM ===== */
 .problem { background: #0f172a; }
 .problem-cards {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
   margin-bottom: 40px;
 }
 .problem-card {
@@ -377,6 +377,59 @@ section { padding: 96px 0; }
   font-size: 18px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums;
 }
 .chart-stat-label { font-size: 11px; color: #64748b; }
+
+/* ===== CHARGEBACK FLOW ===== */
+.chargeback-flow { background: #0a0a0f; position: relative; overflow: hidden; }
+.chargeback-flow-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 40% at 50% 60%, rgba(59,130,246,0.06) 0%, transparent 70%);
+}
+.chargeback-flow .container { position: relative; z-index: 1; }
+.cb-steps {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  margin-bottom: 56px; position: relative;
+}
+.cb-steps::before {
+  content: ''; position: absolute;
+  top: 40px; left: 16.5%; right: 16.5%; height: 2px;
+  background: linear-gradient(to right, #1e293b, #3b82f6, #1e293b);
+}
+.cb-step {
+  text-align: center; position: relative; z-index: 1;
+}
+.cb-step-icon {
+  width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 24px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; font-weight: 800;
+  background: rgba(59,130,246,0.08); border: 2px solid rgba(59,130,246,0.3);
+  color: #3b82f6;
+}
+.cb-step h4 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.cb-step p { font-size: 15px; color: #94a3b8; line-height: 1.6; max-width: 300px; margin: 0 auto; }
+.cb-highlight {
+  padding: 32px 40px; border-radius: 16px;
+  background: rgba(29,78,216,0.08); border: 1px solid rgba(59,130,246,0.3);
+  text-align: center; margin-bottom: 40px;
+  position: relative; overflow: hidden;
+}
+.cb-highlight::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(59,130,246,0.06) 0%, transparent 70%);
+}
+.cb-highlight blockquote {
+  font-size: clamp(17px, 2vw, 20px); color: #cbd5e1; line-height: 1.7;
+  font-weight: 600; position: relative; z-index: 1; margin-bottom: 8px;
+}
+.cb-highlight cite {
+  font-size: 13px; color: #64748b; font-style: normal; position: relative; z-index: 1;
+}
+.cb-cta { text-align: center; }
+
+@media (max-width: 768px) {
+  .cb-steps { grid-template-columns: 1fr; gap: 40px; }
+  .cb-steps::before { display: none; }
+  .cb-highlight { padding: 24px 20px; }
+}
 
 /* ===== HOW IT WORKS ===== */
 .how-it-works { background: #0f172a; }
@@ -523,6 +576,8 @@ section { padding: 96px 0; }
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1200px) {
   .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .problem-cards { grid-template-columns: repeat(2, 1fr); }
+  .social-metrics { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -677,6 +732,10 @@ section { padding: 96px 0; }
         <div class="number count-up-positive" data-target="1847" data-prefix="R$" data-suffix="" data-decimals="0" data-thousands=".">R$0</div>
         <div class="label">Valor médio recuperado por carrinho abandonado/mês</div>
       </div>
+      <div class="social-metric fade-in">
+        <div class="number count-up-positive" data-target="71" data-suffix="%" data-decimals="0">0%</div>
+        <div class="label">Taxa de vitória em disputas com evidências completas submetidas automaticamente</div>
+      </div>
     </div>
     <div class="logos-section" aria-label="Marcas que confiam no SyncDefend">
       <div class="logos-track">
@@ -722,6 +781,10 @@ section { padding: 96px 0; }
       <div class="problem-card fade-in">
         <div class="number count-up-negative" data-target="2400" data-prefix="R$" data-suffix="" data-decimals="0" data-thousands=".">R$0</div>
         <div class="desc">Valor médio de carrinhos abandonados sem recuperação por mês</div>
+      </div>
+      <div class="problem-card fade-in">
+        <div class="number count-up-negative" data-target="23" data-suffix="%" data-decimals="0">0%</div>
+        <div class="desc">Taxa média de vitória em chargebacks sem evidências submetidas — contra 71% com evidências completas</div>
       </div>
     </div>
     <p class="problem-bottom fade-in">O <strong>SyncDefend</strong> resolve os três problemas simultaneamente, com IA que trabalha 24 horas por dia.</p>
@@ -779,8 +842,10 @@ section { padding: 96px 0; }
         <ul class="feature-list">
           <li>Score de risco de 0 a 100 para cada e-mail recebido</li>
           <li>Alertas automáticos para clientes com alto risco</li>
-          <li>Geração de provas com histórico de suporte como evidência</li>
-          <li>Submissão automática de defesa diretamente na Shopify</li>
+          <li>Sincronização automática de disputas abertas na Shopify Payments</li>
+          <li>Upload automático de evidências diretamente na Shopify Payments</li>
+          <li>Histórico de suporte usado como prova — aumenta em até 3x a chance de ganhar a disputa</li>
+          <li>Defesa adaptada ao código de motivo de cada operadora (Visa, Mastercard, Amex)</li>
         </ul>
       </div>
       <div class="feature-mockup">
@@ -869,6 +934,46 @@ section { padding: 96px 0; }
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CHARGEBACK FLOW ===== -->
+<section class="chargeback-flow" id="chargeback">
+  <div class="chargeback-flow-bg" aria-hidden="true"></div>
+  <div class="container">
+    <h2 class="section-title fade-in">Chargeback? A IA responde por você.</h2>
+    <p class="section-sub fade-in">Integração direta com Shopify Payments — do alerta à evidência, tudo automático.</p>
+    <div class="cb-steps">
+      <div class="cb-steps-line" aria-hidden="true"></div>
+      <div class="cb-step fade-in">
+        <div class="cb-step-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h4>Disputa aberta</h4>
+        <p>A Shopify Payments abre uma disputa. O SyncDefend detecta automaticamente e sincroniza os dados em segundos.</p>
+      </div>
+      <div class="cb-step fade-in">
+        <div class="cb-step-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <h4>Evidências geradas</h4>
+        <p>A IA analisa o código de motivo da operadora, busca o histórico de suporte com o cliente e monta o dossiê de defesa.</p>
+      </div>
+      <div class="cb-step fade-in">
+        <div class="cb-step-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h4>Upload automático</h4>
+        <p>As evidências são enviadas diretamente para a Shopify Payments antes do prazo, sem nenhuma ação manual.</p>
+      </div>
+    </div>
+    <div class="cb-highlight fade-in">
+      <blockquote>Lojistas que submetem evidências com histórico de suporte ganham até 3x mais disputas do que os que não submetem nada.</blockquote>
+      <cite>— baseado em dados do setor de gestão de chargebacks</cite>
+    </div>
+    <div class="cb-cta fade-in">
+      <a href="https://app.syncdefend.space/" class="btn btn-primary btn-lg">Ver como funciona &rarr;</a>
     </div>
   </div>
 </section>
