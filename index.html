@@ -560,6 +560,47 @@ section { padding: 96px 0; }
   .hero-metrics { flex-direction: column; gap: 12px; }
   .steps { grid-template-columns: 1fr; }
 }
+
+/* ===== COUNT-UP ANIMATIONS ===== */
+.count-up-positive {
+  transition: color 0.4s ease-out, text-shadow 0.4s ease-out;
+}
+.count-up-positive.counting {
+  color: #60a5fa;
+  text-shadow: 0 0 24px rgba(59,130,246,0.3);
+}
+.count-up-positive.done {
+  color: #3b82f6;
+  text-shadow: 0 0 32px rgba(59,130,246,0.25);
+}
+
+.count-up-negative {
+  transition: color 0.4s ease-out, text-shadow 0.4s ease-out;
+}
+.count-up-negative.counting {
+  color: #f97316;
+  text-shadow: 0 0 20px rgba(249,115,22,0.3);
+}
+.count-up-negative.done {
+  color: #ef4444;
+  text-shadow: 0 0 24px rgba(239,68,68,0.2);
+}
+
+.problem-card.pulse-alert {
+  animation: borderPulse 0.6s ease-in-out 3;
+}
+@keyframes borderPulse {
+  0%, 100% { border-color: rgba(239,68,68,0.25); box-shadow: none; }
+  50% { border-color: rgba(249,115,22,0.6); box-shadow: 0 0 20px rgba(249,115,22,0.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .problem-card.pulse-alert { animation: none; }
+  .count-up-positive, .count-up-negative { transition: none; }
+}
+
+.count-up-negative .alert-arrow {
+  font-size: 0.7em; margin-right: 4px; display: inline;
+}
 </style>
 </head>
 <body>
@@ -625,15 +666,15 @@ section { padding: 96px 0; }
     <p class="section-label fade-in">Protegendo e-commerces em todo o Brasil</p>
     <div class="social-metrics">
       <div class="social-metric fade-in">
-        <div class="number">97%</div>
+        <div class="number count-up-positive" data-target="97" data-suffix="%" data-decimals="0">0%</div>
         <div class="label">Chargebacks respondidos automaticamente</div>
       </div>
       <div class="social-metric fade-in">
-        <div class="number">3,2x</div>
+        <div class="number count-up-positive" data-target="3.2" data-suffix="x" data-decimals="1" data-separator=",">0,0x</div>
         <div class="label">Aumento médio na taxa de recuperação de disputas</div>
       </div>
       <div class="social-metric fade-in">
-        <div class="number">R$1.847</div>
+        <div class="number count-up-positive" data-target="1847" data-prefix="R$" data-suffix="" data-decimals="0" data-thousands=".">R$0</div>
         <div class="label">Valor médio recuperado por carrinho abandonado/mês</div>
       </div>
     </div>
@@ -671,15 +712,15 @@ section { padding: 96px 0; }
     <h2 class="section-title fade-in">Cada chargeback não respondido<br>custa mais do que você imagina.</h2>
     <div class="problem-cards">
       <div class="problem-card fade-in">
-        <div class="number">R$800</div>
+        <div class="number count-up-negative" data-target="800" data-prefix="R$" data-suffix="" data-decimals="0">R$0</div>
         <div class="desc">Custo médio de um único chargeback perdido (produto + taxa da operadora)</div>
       </div>
       <div class="problem-card fade-in">
-        <div class="number">68%</div>
+        <div class="number count-up-negative" data-target="68" data-suffix="%" data-decimals="0">0%</div>
         <div class="desc">E-mails de suporte não respondidos em até 24h viram disputas</div>
       </div>
       <div class="problem-card fade-in">
-        <div class="number">R$2.400</div>
+        <div class="number count-up-negative" data-target="2400" data-prefix="R$" data-suffix="" data-decimals="0" data-thousands=".">R$0</div>
         <div class="desc">Valor médio de carrinhos abandonados sem recuperação por mês</div>
       </div>
     </div>
@@ -699,7 +740,7 @@ section { padding: 96px 0; }
         <div class="feature-badge">Suporte</div>
         <h3>IA que responde como humano. Porque seus clientes merecem.</h3>
         <ul class="feature-list">
-          <li>Responde e-mails automaticamente em português e inglês</li>
+          <li>Responde e-mails automaticamente em qualquer idioma do mundo</li>
           <li>Detecta o tom e adapta a resposta ao perfil do cliente</li>
           <li>Nunca revela que é IA — atendimento humanizado garantido</li>
           <li>Busca dados do pedido na Shopify em tempo real</li>
@@ -1112,6 +1153,92 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   els.forEach(function(el) { observer.observe(el); });
+})();
+
+// ===== Count-Up Animation =====
+(function() {
+  function formatNumber(value, decimals, decSep, thousandsSep, prefix, suffix) {
+    var fixed = value.toFixed(decimals);
+    var parts = fixed.split('.');
+    var intPart = parts[0];
+    var decPart = parts[1] || '';
+
+    if (thousandsSep && intPart.length > 3) {
+      intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSep);
+    }
+
+    var result = prefix;
+    result += intPart;
+    if (decimals > 0) result += (decSep || '.') + decPart;
+    result += suffix;
+    return result;
+  }
+
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function animateCounter(el, isNegative) {
+    var target = parseFloat(el.getAttribute('data-target'));
+    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    var prefix = el.getAttribute('data-prefix') || '';
+    var suffix = el.getAttribute('data-suffix') || '';
+    var thousandsSep = el.getAttribute('data-thousands') || '';
+    var decSep = el.getAttribute('data-separator') || '.';
+    var duration = 2000;
+    var start = null;
+
+    el.classList.add('counting');
+
+    if (isNegative) {
+      var card = el.closest('.problem-card');
+      if (card) card.classList.add('pulse-alert');
+    }
+
+    function step(timestamp) {
+      if (!start) start = timestamp;
+      var progress = Math.min((timestamp - start) / duration, 1);
+      var eased = easeOutCubic(progress);
+      var current = eased * target;
+
+      var display = formatNumber(current, decimals, decSep, thousandsSep, prefix, suffix);
+
+      if (isNegative) {
+        el.innerHTML = '<span class="alert-arrow" aria-hidden="true">\u2191</span>' + display;
+      } else {
+        el.textContent = display;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        var final = formatNumber(target, decimals, decSep, thousandsSep, prefix, suffix);
+        if (isNegative) {
+          el.innerHTML = '<span class="alert-arrow" aria-hidden="true">\u2191</span>' + final;
+        } else {
+          el.textContent = final;
+        }
+        el.classList.remove('counting');
+        el.classList.add('done');
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  if (!('IntersectionObserver' in window)) return;
+
+  var allCounters = document.querySelectorAll('.count-up-positive, .count-up-negative');
+  var counterObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var el = entry.target;
+        var isNeg = el.classList.contains('count-up-negative');
+        animateCounter(el, isNeg);
+        counterObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  allCounters.forEach(function(el) { counterObserver.observe(el); });
 })();
 
 // ===== FAQ Accordion =====
