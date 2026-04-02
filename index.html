@@ -3,23 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SyncDefend — Sua loja Shopify. Defendida por IA.</title>
-<meta name="description" content="SyncDefend protege sua loja Shopify com IA: suporte automatizado, detecção de chargeback e recuperação de carrinho abandonado. Teste grátis por 14 dias.">
-<meta property="og:title" content="SyncDefend — Sua loja Shopify. Defendida por IA.">
-<meta property="og:description" content="Responda e-mails automaticamente, elimine chargebacks e recupere carrinhos abandonados com IA. Integração nativa com Shopify.">
+<title>SyncDefend — Suporte, Chargebacks e Carrinho Abandonado com IA para Shopify</title>
+<meta name="description" content="SyncDefend protege sua loja Shopify com IA: suporte automatizado que parece humano, defesa de chargebacks com CE3.0 e recuperacao inteligente de carrinhos abandonados. 14 dias gratis.">
+<meta property="og:title" content="SyncDefend — Suporte, Chargebacks e Carrinho Abandonado com IA para Shopify">
+<meta property="og:description" content="A unica plataforma brasileira que responde emails, vence chargebacks com CE3.0 e recupera carrinhos abandonados. Tudo automatico, tudo em um painel.">
 <meta property="og:type" content="website">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%233b82f6'/%3E%3Cstop offset='100%25' stop-color='%231d4ed8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='url(%23g)'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Inter,sans-serif' font-weight='800' font-size='16' fill='white'%3ESD%3C/text%3E%3C/svg%3E">
+<meta property="og:locale" content="pt_BR">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%233b82f6'/%3E%3Cstop offset='100%25' stop-color='%231d4ed8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='url(%23g)'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Inter,system-ui,sans-serif' font-weight='800' font-size='16' fill='white'%3ESD%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ===== RESET & BASE ===== */
+/* ===== RESET & TOKENS ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a0f;
+  --bg-elevated: #0f172a;
+  --bg-card: rgba(15,23,42,0.5);
+  --border: #1e293b;
+  --border-hover: #334155;
+  --blue: #3b82f6;
+  --blue-dark: #1d4ed8;
+  --blue-glow: rgba(59,130,246,0.15);
+  --blue-subtle: rgba(59,130,246,0.08);
+  --green: #22c55e;
+  --red: #ef4444;
+  --amber: #f59e0b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-faint: #475569;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 100px;
+  --duration: 200ms;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #0a0a0f;
-  color: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
@@ -28,8 +55,16 @@ body {
 }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
-img { max-width: 100%; display: block; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ===== SKIP LINK (Accessibility) ===== */
+.skip-link {
+  position: absolute; top: -100%; left: 16px;
+  padding: 12px 24px; background: var(--blue); color: #fff;
+  border-radius: var(--radius-sm); font-weight: 700; font-size: 14px;
+  z-index: 9999; transition: top var(--duration) var(--ease);
+}
+.skip-link:focus { top: 16px; }
 
 /* ===== UTILITIES ===== */
 .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
@@ -37,53 +72,47 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* ===== BUTTONS ===== */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 16px; border-radius: 12px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-weight: 700; font-size: 16px; border-radius: var(--radius-md);
   padding: 14px 28px; min-height: 48px;
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background 0.2s ease-out, border-color 0.2s ease-out;
+  transition: transform var(--duration) var(--ease), box-shadow var(--duration) var(--ease), background var(--duration) var(--ease), border-color var(--duration) var(--ease);
   cursor: pointer; touch-action: manipulation;
   text-align: center; white-space: nowrap;
 }
-.btn:focus-visible { outline: 2px solid #3b82f6; outline-offset: 3px; }
+.btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
 .btn:active { transform: scale(0.97); }
-.btn-primary {
-  background: #3b82f6; color: #fff; border: 2px solid #3b82f6;
-}
-.btn-primary:hover { background: #2563eb; border-color: #2563eb; box-shadow: 0 0 24px rgba(59,130,246,0.4); }
-.btn-outline {
-  background: transparent; color: #fff; border: 2px solid #334155;
-}
-.btn-outline:hover { border-color: #3b82f6; color: #3b82f6; }
-.btn-lg { font-size: 18px; padding: 16px 32px; min-height: 52px; }
+.btn-primary { background: var(--blue); color: #fff; border: 2px solid var(--blue); }
+.btn-primary:hover { background: var(--blue-dark); border-color: var(--blue-dark); box-shadow: 0 0 32px var(--blue-glow); }
+.btn-outline { background: transparent; color: #fff; border: 2px solid var(--border-hover); }
+.btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+.btn-lg { font-size: 18px; padding: 16px 36px; min-height: 52px; }
 
 /* ===== NAVBAR ===== */
 .navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
   padding: 16px 0;
-  transition: background 0.3s ease-out, box-shadow 0.3s ease-out;
+  transition: background 300ms var(--ease), box-shadow 300ms var(--ease);
 }
 .navbar.scrolled {
-  background: rgba(10,10,15,0.85);
+  background: rgba(10,10,15,0.88);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 1px 0 #1e293b;
+  box-shadow: 0 1px 0 var(--border);
 }
-.navbar .container {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-}
+.navbar .container { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; flex-shrink: 0; }
 .nav-logo-icon {
-  width: 36px; height: 36px; border-radius: 8px;
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  width: 36px; height: 36px; border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
   display: flex; align-items: center; justify-content: center;
   font-weight: 800; font-size: 14px; color: #fff;
 }
 .nav-links { display: flex; align-items: center; gap: 32px; }
 .nav-links a {
-  font-size: 15px; color: #94a3b8; font-weight: 500;
-  transition: color 0.2s ease-out; padding: 8px 0;
+  font-size: 15px; color: var(--text-secondary); font-weight: 500;
+  transition: color var(--duration) var(--ease); padding: 8px 0;
 }
 .nav-links a:hover, .nav-links a:focus-visible { color: #fff; }
-.nav-links a:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; border-radius: 4px; }
+.nav-links a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 4px; }
 .nav-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .nav-actions .btn { padding: 10px 20px; font-size: 14px; min-height: 44px; }
 .nav-mobile-toggle {
@@ -93,29 +122,25 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .nav-mobile-toggle span {
   display: block; width: 22px; height: 2px; background: #fff;
-  position: relative; transition: background 0.2s;
+  position: relative; transition: background var(--duration);
 }
 .nav-mobile-toggle span::before, .nav-mobile-toggle span::after {
   content: ''; position: absolute; left: 0; width: 22px; height: 2px; background: #fff;
-  transition: transform 0.2s ease-out;
+  transition: transform var(--duration) var(--ease);
 }
 .nav-mobile-toggle span::before { top: -7px; }
 .nav-mobile-toggle span::after { top: 7px; }
 .nav-mobile-toggle[aria-expanded="true"] span { background: transparent; }
 .nav-mobile-toggle[aria-expanded="true"] span::before { transform: translateY(7px) rotate(45deg); }
 .nav-mobile-toggle[aria-expanded="true"] span::after { transform: translateY(-7px) rotate(-45deg); }
-
 .nav-mobile-menu {
   display: none; position: fixed; top: 68px; left: 0; right: 0;
   background: rgba(10,10,15,0.98); backdrop-filter: blur(20px);
   padding: 24px; flex-direction: column; gap: 16px;
-  border-bottom: 1px solid #1e293b;
+  border-bottom: 1px solid var(--border);
 }
 .nav-mobile-menu.open { display: flex; }
-.nav-mobile-menu a {
-  font-size: 18px; color: #94a3b8; padding: 12px 0; font-weight: 500;
-  transition: color 0.2s;
-}
+.nav-mobile-menu a { font-size: 18px; color: var(--text-secondary); padding: 12px 0; font-weight: 500; transition: color var(--duration); }
 .nav-mobile-menu a:hover { color: #fff; }
 .nav-mobile-menu .btn { width: 100%; margin-top: 8px; }
 
@@ -126,142 +151,108 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .hero-bg {
   position: absolute; inset: 0; z-index: 0;
-  background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(59,130,246,0.12) 0%, transparent 70%);
+  background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(59,130,246,0.1) 0%, transparent 70%);
 }
 .hero-grid {
   position: absolute; inset: 0; z-index: 0;
-  background-image: radial-gradient(circle, rgba(59,130,246,0.08) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(59,130,246,0.06) 1px, transparent 1px);
   background-size: 32px 32px;
   animation: gridPulse 8s ease-in-out infinite;
 }
-@keyframes gridPulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.7; }
-}
-@media (prefers-reduced-motion: reduce) {
-  @keyframes gridPulse { 0%, 100% { opacity: 0.5; } }
-  .hero-grid { animation: none; opacity: 0.5; }
-  .fade-in { opacity: 1 !important; transform: none !important; transition: none !important; }
-  .badge-glow { animation: none; }
-  .logos-track { animation: none; }
-}
+@keyframes gridPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
 .hero .container { position: relative; z-index: 1; }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 20px; border-radius: 100px;
-  background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3);
-  font-size: 14px; color: #94a3b8; margin-bottom: 32px;
-  font-weight: 600;
+  padding: 8px 20px; border-radius: var(--radius-full);
+  background: var(--blue-subtle); border: 1px solid rgba(59,130,246,0.25);
+  font-size: 14px; color: var(--text-secondary); margin-bottom: 32px;
+  font-weight: 600; animation: badgeGlow 3s ease-in-out infinite;
 }
-.badge-glow {
-  animation: badgeGlow 3s ease-in-out infinite;
-}
-@keyframes badgeGlow {
-  0%, 100% { box-shadow: 0 0 0 rgba(59,130,246,0); }
-  50% { box-shadow: 0 0 20px rgba(59,130,246,0.15); }
-}
+@keyframes badgeGlow { 0%, 100% { box-shadow: 0 0 0 rgba(59,130,246,0); } 50% { box-shadow: 0 0 20px rgba(59,130,246,0.12); } }
 .hero h1 {
   font-size: clamp(36px, 6vw, 72px); font-weight: 800; line-height: 1.08;
   letter-spacing: -0.03em; margin-bottom: 24px;
 }
-.hero h1 .highlight { color: #3b82f6; }
+.hero h1 .highlight { color: var(--blue); }
 .hero-sub {
-  font-size: clamp(16px, 2vw, 20px); color: #94a3b8; max-width: 640px;
-  margin: 0 auto 40px; line-height: 1.6;
+  font-size: clamp(16px, 2vw, 20px); color: var(--text-secondary); max-width: 640px;
+  margin: 0 auto 40px; line-height: 1.7;
 }
 .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
-.hero-disclaimer {
-  font-size: 13px; color: #64748b; margin-bottom: 48px;
+.hero-trust {
+  font-size: 14px; color: var(--text-muted); margin-bottom: 48px;
+  display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;
 }
+.hero-trust svg { flex-shrink: 0; }
 .hero-metrics {
-  display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
-  padding-top: 32px; border-top: 1px solid #1e293b;
+  display: flex; gap: 40px; justify-content: center; flex-wrap: wrap;
+  padding-top: 32px; border-top: 1px solid var(--border);
 }
-.hero-metric {
-  font-size: 14px; color: #64748b;
+.hero-metric { text-align: center; }
+.hero-metric .metric-value {
+  font-size: 32px; font-weight: 800; color: var(--blue); line-height: 1.2;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
 }
-.hero-metric strong { color: #94a3b8; font-weight: 600; }
+.hero-metric .metric-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
 
-/* ===== SECTIONS COMMON ===== */
+/* ===== SHARED SECTIONS ===== */
 section { padding: 96px 0; }
 .section-label {
   font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
-  color: #3b82f6; margin-bottom: 16px; text-align: center;
+  color: var(--blue); margin-bottom: 16px; text-align: center;
 }
 .section-title {
   font-size: clamp(28px, 4vw, 48px); font-weight: 800; line-height: 1.15;
   letter-spacing: -0.02em; text-align: center; margin-bottom: 16px;
 }
 .section-sub {
-  font-size: 18px; color: #94a3b8; text-align: center; max-width: 560px; margin: 0 auto 56px; line-height: 1.6;
+  font-size: 18px; color: var(--text-secondary); text-align: center;
+  max-width: 580px; margin: 0 auto 56px; line-height: 1.7;
 }
 
-/* ===== FADE IN ANIMATION ===== */
+/* ===== FADE IN ===== */
 .fade-in {
   opacity: 0; transform: translateY(24px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
 }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-/* ===== SOCIAL PROOF ===== */
-.social-proof { padding: 64px 0 80px; }
-.social-metrics {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
-  margin-bottom: 56px;
+/* ===== PAIN SECTION ===== */
+.pain { background: var(--bg-elevated); position: relative; overflow: hidden; }
+.pain-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 50% at 50% 20%, rgba(239,68,68,0.04) 0%, transparent 70%);
 }
-.social-metric {
-  text-align: center; padding: 32px 16px;
-  border: 1px solid #1e293b; border-radius: 16px;
-  background: rgba(30,41,59,0.2);
+.pain .container { position: relative; z-index: 1; }
+.pain-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  margin-bottom: 48px;
 }
-.social-metric .number {
-  font-size: clamp(36px, 5vw, 56px); font-weight: 800; color: #3b82f6;
-  line-height: 1.1; margin-bottom: 8px; letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
+.pain-card {
+  padding: 32px; border-radius: var(--radius-lg); border: 1px solid rgba(239,68,68,0.2);
+  background: rgba(239,68,68,0.03);
+  transition: border-color var(--duration) var(--ease);
 }
-.social-metric .label { font-size: 15px; color: #94a3b8; line-height: 1.5; }
-
-.logos-section {
-  overflow: hidden; position: relative;
-  padding: 24px 0; border-top: 1px solid #1e293b; border-bottom: 1px solid #1e293b;
+.pain-card:hover { border-color: rgba(239,68,68,0.4); }
+.pain-card .pain-icon {
+  width: 48px; height: 48px; border-radius: var(--radius-sm);
+  background: rgba(239,68,68,0.08);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
 }
-.logos-section::before, .logos-section::after {
-  content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2;
+.pain-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+.pain-card .pain-stat {
+  font-size: 32px; font-weight: 800; color: var(--red); margin-bottom: 8px;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
 }
-.logos-section::before { left: 0; background: linear-gradient(to right, #0a0a0f, transparent); }
-.logos-section::after { right: 0; background: linear-gradient(to left, #0a0a0f, transparent); }
-.logos-track {
-  display: flex; gap: 48px; animation: scroll 25s linear infinite;
-  width: max-content;
+.pain-card p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+.pain-bottom {
+  text-align: center; max-width: 640px; margin: 0 auto;
+  padding: 32px; border-radius: var(--radius-lg);
+  background: rgba(59,130,246,0.04); border: 1px solid rgba(59,130,246,0.15);
 }
-@keyframes scroll {
-  to { transform: translateX(-50%); }
-}
-.logo-placeholder {
-  flex-shrink: 0; padding: 12px 28px; border: 1px solid #1e293b; border-radius: 8px;
-  font-size: 14px; font-weight: 600; color: #475569; white-space: nowrap;
-  background: rgba(30,41,59,0.15);
-}
-
-/* ===== PROBLEM ===== */
-.problem { background: #0f172a; }
-.problem-cards {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
-  margin-bottom: 40px;
-}
-.problem-card {
-  padding: 32px; border-radius: 16px; border: 1px solid rgba(239,68,68,0.25);
-  background: rgba(239,68,68,0.04);
-}
-.problem-card .number {
-  font-size: clamp(32px, 4vw, 48px); font-weight: 800; color: #ef4444;
-  line-height: 1.1; margin-bottom: 12px; font-variant-numeric: tabular-nums;
-}
-.problem-card .desc { font-size: 15px; color: #94a3b8; line-height: 1.6; }
-.problem-bottom {
-  text-align: center; font-size: 18px; color: #94a3b8; max-width: 600px; margin: 0 auto; line-height: 1.6;
-}
-.problem-bottom strong { color: #fff; }
+.pain-bottom p { font-size: 18px; color: var(--text-secondary); line-height: 1.7; }
+.pain-bottom strong { color: var(--text-primary); }
 
 /* ===== FEATURES ===== */
 .features-section { padding: 96px 0; }
@@ -275,212 +266,278 @@ section { padding: 96px 0; }
 .feature-badge {
   display: inline-flex; padding: 6px 14px; border-radius: 6px;
   font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
-  background: rgba(59,130,246,0.12); color: #3b82f6; border: 1px solid rgba(59,130,246,0.2);
   margin-bottom: 16px;
 }
+.feature-badge.support { background: rgba(59,130,246,0.1); color: var(--blue); border: 1px solid rgba(59,130,246,0.2); }
+.feature-badge.protection { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+.feature-badge.revenue { background: rgba(34,197,94,0.1); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
 .feature-text h3 {
   font-size: clamp(24px, 3vw, 36px); font-weight: 800; line-height: 1.2;
-  letter-spacing: -0.02em; margin-bottom: 24px;
+  letter-spacing: -0.02em; margin-bottom: 16px;
 }
-.feature-list { display: flex; flex-direction: column; gap: 16px; }
+.feature-text > p {
+  font-size: 16px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 24px;
+}
+.feature-list { display: flex; flex-direction: column; gap: 14px; }
 .feature-list li {
-  display: flex; gap: 12px; font-size: 16px; color: #cbd5e1; line-height: 1.6;
+  display: flex; gap: 12px; font-size: 15px; color: #cbd5e1; line-height: 1.6;
   align-items: flex-start;
 }
-.feature-list li::before {
-  content: '';
-  flex-shrink: 0; width: 20px; height: 20px; margin-top: 3px;
-  border-radius: 50%; background: rgba(59,130,246,0.15);
-  border: 2px solid #3b82f6;
-  display: inline-flex; align-items: center; justify-content: center;
+.feature-list li .check-icon {
+  flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px;
 }
-.feature-list li::after { content: none; }
-
-/* Feature Checkmark via SVG background */
-.feature-list li::before {
-  background: rgba(59,130,246,0.15) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M6 10l3 3 5-5' stroke='%233b82f6' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat;
-  border: none;
+.feature-highlight {
+  margin-top: 24px; padding: 16px 20px; border-radius: var(--radius-sm);
+  background: var(--blue-subtle); border-left: 3px solid var(--blue);
+  font-size: 14px; color: #cbd5e1; line-height: 1.6;
 }
+.feature-highlight strong { color: var(--text-primary); }
 
 /* ===== MOCKUPS ===== */
 .feature-mockup {
-  background: #1e293b; border-radius: 16px; border: 1px solid #334155;
+  background: var(--bg-elevated); border-radius: var(--radius-lg); border: 1px solid var(--border-hover);
   overflow: hidden; position: relative;
 }
 .mockup-header {
   display: flex; align-items: center; gap: 8px; padding: 14px 20px;
-  border-bottom: 1px solid #334155;
+  border-bottom: 1px solid var(--border);
 }
 .mockup-dot { width: 10px; height: 10px; border-radius: 50%; }
-.mockup-dot:nth-child(1) { background: #ef4444; }
-.mockup-dot:nth-child(2) { background: #f59e0b; }
-.mockup-dot:nth-child(3) { background: #22c55e; }
+.mockup-dot:nth-child(1) { background: var(--red); }
+.mockup-dot:nth-child(2) { background: var(--amber); }
+.mockup-dot:nth-child(3) { background: var(--green); }
+.mockup-title { font-size: 12px; color: var(--text-muted); margin-left: 8px; font-weight: 500; }
 .mockup-body { padding: 24px; }
 
-/* Mockup 1 — Support */
+/* Mockup Chat */
 .mockup-chat { display: flex; flex-direction: column; gap: 12px; }
 .chat-msg {
-  padding: 12px 16px; border-radius: 12px; font-size: 13px;
-  line-height: 1.5; max-width: 85%;
+  padding: 12px 16px; border-radius: var(--radius-md); font-size: 13px;
+  line-height: 1.6; max-width: 85%;
 }
 .chat-msg.customer {
-  background: #0f172a; color: #94a3b8; align-self: flex-start; border: 1px solid #334155;
+  background: rgba(15,23,42,0.8); color: var(--text-secondary); align-self: flex-start;
+  border: 1px solid var(--border);
 }
 .chat-msg.ai {
-  background: rgba(59,130,246,0.12); color: #cbd5e1; align-self: flex-end; border: 1px solid rgba(59,130,246,0.2);
+  background: rgba(59,130,246,0.08); color: #cbd5e1; align-self: flex-end;
+  border: 1px solid rgba(59,130,246,0.15);
 }
 .chat-msg .chat-label {
   font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-  color: #64748b; margin-bottom: 4px; display: block;
+  color: var(--text-muted); margin-bottom: 4px; display: block;
 }
-.chat-msg.ai .chat-label { color: #3b82f6; }
+.chat-msg.ai .chat-label { color: var(--blue); }
+.chat-typing {
+  display: flex; gap: 4px; align-items: center; padding: 8px 16px;
+  font-size: 11px; color: var(--text-muted);
+}
+.chat-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); opacity: 0.4; animation: typingDot 1.4s infinite; }
+.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot { 0%, 60%, 100% { opacity: 0.4; transform: scale(1); } 30% { opacity: 1; transform: scale(1.2); } }
 
-/* Mockup 2 — Chargeback */
+/* Mockup Risk */
 .mockup-risk-list { display: flex; flex-direction: column; gap: 10px; }
 .risk-item {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 16px; border-radius: 10px; background: #0f172a; border: 1px solid #334155;
-  font-size: 13px;
+  padding: 12px 16px; border-radius: 10px; background: rgba(10,10,15,0.6); border: 1px solid var(--border);
+  font-size: 13px; gap: 12px;
 }
-.risk-item .email-col { color: #cbd5e1; flex: 1; }
-.risk-item .subject-col { color: #64748b; flex: 1.5; }
+.risk-item .order-col { color: #cbd5e1; flex-shrink: 0; font-weight: 600; }
+.risk-item .reason-col { color: var(--text-muted); flex: 1; }
+.risk-item .status-col { flex-shrink: 0; }
 .risk-score {
   padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
-.risk-high { background: rgba(239,68,68,0.15); color: #ef4444; }
-.risk-med { background: rgba(245,158,11,0.15); color: #f59e0b; }
-.risk-low { background: rgba(34,197,94,0.15); color: #22c55e; }
+.risk-high { background: rgba(239,68,68,0.12); color: var(--red); }
+.risk-med { background: rgba(245,158,11,0.12); color: var(--amber); }
+.risk-won { background: rgba(34,197,94,0.12); color: var(--green); }
+.mockup-risk-footer {
+  margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; font-size: 12px;
+}
+.mockup-risk-footer span { color: var(--text-muted); }
+.mockup-risk-footer strong { color: var(--green); font-weight: 700; }
 
-/* Mockup 3 — Cart Recovery */
-.mockup-chart { display: flex; flex-direction: column; gap: 16px; }
-.chart-header { display: flex; justify-content: space-between; align-items: baseline; }
-.chart-header .chart-value {
-  font-size: 28px; font-weight: 800; color: #22c55e; font-variant-numeric: tabular-nums;
+/* Mockup Cart */
+.mockup-email-seq { display: flex; flex-direction: column; gap: 10px; }
+.email-step {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; border-radius: 10px; background: rgba(10,10,15,0.6);
+  border: 1px solid var(--border); font-size: 13px;
 }
-.chart-header .chart-label { font-size: 13px; color: #64748b; }
-.chart-bars { display: flex; align-items: flex-end; gap: 8px; height: 100px; }
-.chart-bar {
-  flex: 1; border-radius: 4px 4px 0 0; background: linear-gradient(to top, #1d4ed8, #3b82f6);
-  position: relative; min-height: 8px;
-  transition: height 0.3s ease-out;
+.email-step-num {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
 }
-.chart-bar-label {
-  position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
-  font-size: 10px; color: #64748b; white-space: nowrap;
-}
-.chart-stats {
+.email-step-num.step-1 { background: rgba(59,130,246,0.12); color: var(--blue); }
+.email-step-num.step-2 { background: rgba(245,158,11,0.12); color: var(--amber); }
+.email-step-num.step-3 { background: rgba(239,68,68,0.12); color: var(--red); }
+.email-step-content { flex: 1; }
+.email-step-content .step-title { color: #cbd5e1; font-weight: 600; }
+.email-step-content .step-detail { color: var(--text-muted); font-size: 12px; margin-top: 2px; }
+.email-step .step-rate { font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+.email-step .step-rate.green { color: var(--green); }
+.mockup-cart-stats {
   display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
-  border-top: 1px solid #334155; padding-top: 16px;
+  margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);
 }
-.chart-stat-value {
-  font-size: 18px; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums;
+.cart-stat-value { font-size: 18px; font-weight: 700; color: var(--green); font-variant-numeric: tabular-nums; }
+.cart-stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+/* ===== CE3.0 SECTION ===== */
+.ce3-section {
+  background: var(--bg); position: relative; overflow: hidden;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
 }
-.chart-stat-label { font-size: 11px; color: #64748b; }
+.ce3-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(59,130,246,0.05) 0%, transparent 70%);
+}
+.ce3-section .container { position: relative; z-index: 1; }
+.ce3-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+}
+.ce3-badge {
+  display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px;
+  border-radius: var(--radius-full); background: rgba(59,130,246,0.08);
+  border: 1px solid rgba(59,130,246,0.2); font-size: 13px; font-weight: 700;
+  color: var(--blue); margin-bottom: 20px;
+}
+.ce3-content h2 {
+  font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; line-height: 1.15;
+  letter-spacing: -0.02em; margin-bottom: 20px;
+}
+.ce3-content > p {
+  font-size: 17px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 32px;
+}
+.ce3-steps { display: flex; flex-direction: column; gap: 20px; margin-bottom: 32px; }
+.ce3-step {
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.ce3-step-num {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  background: var(--blue-subtle); border: 2px solid rgba(59,130,246,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 800; color: var(--blue);
+}
+.ce3-step-text h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.ce3-step-text p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+/* CE3 Comparison */
+.ce3-compare {
+  border-radius: var(--radius-lg); overflow: hidden;
+  border: 1px solid var(--border-hover);
+}
+.ce3-compare-header {
+  display: grid; grid-template-columns: 1fr 1fr; font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.ce3-compare-header span {
+  padding: 16px 24px;
+}
+.ce3-compare-header .without { background: rgba(239,68,68,0.06); color: var(--red); }
+.ce3-compare-header .with { background: rgba(34,197,94,0.06); color: var(--green); }
+.ce3-compare-body { display: grid; grid-template-columns: 1fr 1fr; }
+.ce3-compare-body .col { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.ce3-compare-body .col.left { background: rgba(239,68,68,0.02); border-right: 1px solid var(--border); }
+.ce3-compare-body .col.right { background: rgba(34,197,94,0.02); }
+.ce3-compare-item { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; }
+.ce3-compare-item svg { flex-shrink: 0; margin-top: 2px; }
+.ce3-compare-item.bad { color: var(--text-muted); }
+.ce3-compare-item.good { color: #cbd5e1; }
+.ce3-compare-stat {
+  text-align: center; padding: 20px 24px; border-top: 1px solid var(--border);
+  display: grid; grid-template-columns: 1fr 1fr;
+}
+.ce3-compare-stat .stat { padding: 0 24px; }
+.ce3-compare-stat .stat.left { border-right: 1px solid var(--border); }
+.ce3-compare-stat .stat-value {
+  font-size: 36px; font-weight: 800; font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em; line-height: 1.2;
+}
+.ce3-compare-stat .stat.left .stat-value { color: var(--red); }
+.ce3-compare-stat .stat.right .stat-value { color: var(--green); }
+.ce3-compare-stat .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
 /* ===== CHARGEBACK FLOW ===== */
-.chargeback-flow { background: #0a0a0f; position: relative; overflow: hidden; }
-.chargeback-flow-bg {
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 50% 40% at 50% 60%, rgba(59,130,246,0.06) 0%, transparent 70%);
+.cb-flow { padding: 96px 0; }
+.cb-steps-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  margin-bottom: 48px; position: relative;
 }
-.chargeback-flow .container { position: relative; z-index: 1; }
-.cb-steps {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
-  align-items: start; margin-bottom: 56px; position: relative;
-}
-.cb-steps::before {
+.cb-steps-grid::before {
   content: ''; position: absolute;
-  top: 40px; left: 16.5%; right: 16.5%; height: 2px;
-  background: linear-gradient(to right, #1e293b, #3b82f6, #1e293b);
+  top: 36px; left: 12.5%; right: 12.5%; height: 2px;
+  background: linear-gradient(to right, var(--border), var(--blue), var(--border));
 }
 .cb-step {
   text-align: center; position: relative; z-index: 1;
 }
 .cb-step-icon {
-  width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 24px;
+  width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 20px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 28px; font-weight: 800;
-  background: rgba(59,130,246,0.08); border: 2px solid rgba(59,130,246,0.3);
-  color: #3b82f6;
+  background: var(--bg); border: 2px solid rgba(59,130,246,0.3);
 }
-.cb-step h4 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-.cb-step p { font-size: 15px; color: #94a3b8; line-height: 1.6; max-width: 300px; margin: 0 auto; }
-.cb-highlight {
-  padding: 32px 40px; border-radius: 16px;
-  background: rgba(29,78,216,0.08); border: 1px solid rgba(59,130,246,0.3);
-  text-align: center; margin-bottom: 40px;
-  position: relative; overflow: hidden;
-}
-.cb-highlight::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at center, rgba(59,130,246,0.06) 0%, transparent 70%);
-}
-.cb-highlight blockquote {
-  font-size: clamp(17px, 2vw, 20px); color: #cbd5e1; line-height: 1.7;
-  font-weight: 600; position: relative; z-index: 1; margin-bottom: 8px;
-}
-.cb-highlight cite {
-  font-size: 13px; color: #64748b; font-style: normal; position: relative; z-index: 1;
-}
-.cb-cta { text-align: center; }
-
-@media (max-width: 768px) {
-  .cb-steps { grid-template-columns: 1fr; gap: 40px; }
-  .cb-steps::before { display: none; }
-  .cb-highlight { padding: 24px 20px; }
-}
+.cb-step h4 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.cb-step p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; max-width: 220px; margin: 0 auto; }
 
 /* ===== HOW IT WORKS ===== */
-.how-it-works { background: #0f172a; }
-.steps {
+.how-it-works { background: var(--bg-elevated); }
+.steps-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
   margin-bottom: 48px; position: relative;
 }
-.steps::before {
+.steps-grid::before {
   content: ''; position: absolute;
   top: 36px; left: 12.5%; right: 12.5%; height: 2px;
-  background: linear-gradient(to right, #1e293b 0%, #3b82f6 50%, #1e293b 100%);
+  background: linear-gradient(to right, var(--border), var(--blue), var(--border));
 }
-.step {
+.step-card {
   text-align: center; position: relative; z-index: 1;
-  padding: 0 8px;
 }
 .step-number {
   width: 72px; height: 72px; border-radius: 50%;
-  background: #0a0a0f; border: 2px solid #3b82f6;
+  background: var(--bg); border: 2px solid var(--blue);
   display: flex; align-items: center; justify-content: center;
-  font-size: 24px; font-weight: 800; color: #3b82f6;
+  font-size: 24px; font-weight: 800; color: var(--blue);
   margin: 0 auto 20px;
 }
-.step h4 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-.step p { font-size: 14px; color: #94a3b8; line-height: 1.5; }
+.step-card h4 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.step-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
 .how-bottom {
-  text-align: center; font-size: 17px; color: #64748b; font-weight: 500;
+  text-align: center; font-size: 16px; color: var(--text-muted); font-weight: 500;
 }
 
 /* ===== PRICING ===== */
 .pricing { padding: 96px 0; }
+.pricing-toggle-wrap {
+  display: flex; justify-content: center; margin-bottom: 48px;
+}
 .pricing-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
   margin-bottom: 40px;
 }
 .pricing-card {
-  padding: 32px 24px; border-radius: 16px;
-  border: 1px solid #1e293b; background: rgba(15,23,42,0.5);
+  padding: 32px 24px; border-radius: var(--radius-lg);
+  border: 1px solid var(--border); background: var(--bg-card);
   display: flex; flex-direction: column; position: relative;
-  transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition: border-color var(--duration) var(--ease), box-shadow var(--duration) var(--ease), transform var(--duration) var(--ease);
 }
-.pricing-card:hover { border-color: #334155; }
+.pricing-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
 .pricing-card.featured {
-  border-color: #3b82f6;
-  background: rgba(59,130,246,0.06);
-  box-shadow: 0 0 40px rgba(59,130,246,0.1);
+  border-color: var(--blue);
+  background: rgba(59,130,246,0.04);
+  box-shadow: 0 0 40px rgba(59,130,246,0.08);
 }
+.pricing-card.featured:hover { box-shadow: 0 0 60px rgba(59,130,246,0.12); }
 .pricing-popular {
   position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-  padding: 4px 16px; border-radius: 100px;
-  background: #3b82f6; color: #fff; font-size: 12px; font-weight: 700;
+  padding: 4px 16px; border-radius: var(--radius-full);
+  background: var(--blue); color: #fff; font-size: 12px; font-weight: 700;
   white-space: nowrap;
 }
 .pricing-name { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
@@ -488,45 +545,64 @@ section { padding: 96px 0; }
   font-size: 40px; font-weight: 800; line-height: 1.1; margin-bottom: 4px;
   font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
 }
-.pricing-price span { font-size: 16px; font-weight: 500; color: #94a3b8; }
+.pricing-price span { font-size: 16px; font-weight: 500; color: var(--text-secondary); }
+.pricing-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 0; line-height: 1.5; }
 .pricing-features {
   flex: 1; display: flex; flex-direction: column; gap: 12px;
-  margin: 24px 0 28px; padding-top: 24px; border-top: 1px solid #1e293b;
+  margin: 24px 0 28px; padding-top: 24px; border-top: 1px solid var(--border);
 }
 .pricing-features li {
-  font-size: 14px; color: #94a3b8; display: flex; align-items: center; gap: 10px; line-height: 1.5;
+  font-size: 14px; color: var(--text-secondary); display: flex; align-items: center; gap: 10px; line-height: 1.5;
 }
-.pricing-features li::before {
-  content: ''; flex-shrink: 0; width: 16px; height: 16px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8l3 3 5-5' stroke='%233b82f6' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
-}
+.pricing-features li svg { flex-shrink: 0; }
 .pricing-card .btn { width: 100%; }
-.pricing-footer { text-align: center; font-size: 14px; color: #64748b; }
+.pricing-footer {
+  text-align: center; font-size: 14px; color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;
+}
+.pricing-footer svg { flex-shrink: 0; }
+
+/* ===== TESTIMONIALS ===== */
+.testimonials { background: var(--bg-elevated); }
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+}
+.testimonial-card {
+  padding: 32px; border-radius: var(--radius-lg);
+  border: 1px solid var(--border); background: var(--bg-card);
+}
+.testimonial-stars { display: flex; gap: 2px; margin-bottom: 16px; }
+.testimonial-card blockquote {
+  font-size: 15px; color: #cbd5e1; line-height: 1.7; margin-bottom: 20px;
+  font-style: normal;
+}
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; color: #fff; flex-shrink: 0;
+}
+.testimonial-name { font-size: 14px; font-weight: 600; }
+.testimonial-role { font-size: 13px; color: var(--text-muted); }
 
 /* ===== FAQ ===== */
 .faq { padding: 96px 0; }
 .faq-list { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
-.faq-item { border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; background: rgba(15,23,42,0.3); }
+.faq-item { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: var(--bg-card); }
 .faq-question {
   width: 100%; display: flex; align-items: center; justify-content: space-between;
   padding: 20px 24px; font-size: 16px; font-weight: 600; color: #fff;
   background: none; border: none; cursor: pointer; text-align: left;
-  transition: color 0.2s ease-out; min-height: 44px;
-  gap: 16px;
+  transition: color var(--duration) var(--ease); min-height: 48px; gap: 16px;
 }
-.faq-question:hover { color: #3b82f6; }
-.faq-question:focus-visible { outline: 2px solid #3b82f6; outline-offset: -2px; border-radius: 12px; }
-.faq-icon {
-  flex-shrink: 0; width: 24px; height: 24px;
-  transition: transform 0.25s ease-out;
-}
-.faq-icon svg { width: 24px; height: 24px; stroke: #94a3b8; }
+.faq-question:hover { color: var(--blue); }
+.faq-question:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; border-radius: var(--radius-md); }
+.faq-icon { flex-shrink: 0; width: 24px; height: 24px; transition: transform 250ms var(--ease); }
+.faq-icon svg { width: 24px; height: 24px; stroke: var(--text-secondary); }
 .faq-item.open .faq-icon { transform: rotate(45deg); }
-.faq-answer {
-  max-height: 0; overflow: hidden;
-  transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-}
-.faq-answer-inner { padding: 0 24px 20px; font-size: 15px; color: #94a3b8; line-height: 1.7; }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 300ms var(--ease); }
+.faq-answer-inner { padding: 0 24px 20px; font-size: 15px; color: var(--text-secondary); line-height: 1.7; }
 
 /* ===== CTA FINAL ===== */
 .cta-final {
@@ -534,7 +610,7 @@ section { padding: 96px 0; }
 }
 .cta-final-bg {
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(59,130,246,0.1) 0%, transparent 70%);
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(59,130,246,0.08) 0%, transparent 70%);
 }
 .cta-final .container { position: relative; z-index: 1; }
 .cta-final h2 {
@@ -542,12 +618,18 @@ section { padding: 96px 0; }
   letter-spacing: -0.02em; margin-bottom: 16px;
 }
 .cta-final .section-sub { margin-bottom: 40px; }
-.cta-final .small-text { font-size: 13px; color: #64748b; margin-top: 16px; }
+.cta-trust-row {
+  display: flex; align-items: center; justify-content: center; gap: 24px;
+  margin-top: 24px; flex-wrap: wrap;
+}
+.cta-trust-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 14px; color: var(--text-muted);
+}
+.cta-trust-item svg { flex-shrink: 0; }
 
 /* ===== FOOTER ===== */
-.footer {
-  padding: 48px 0; border-top: 1px solid #1e293b;
-}
+.footer { padding: 48px 0; border-top: 1px solid var(--border); }
 .footer .container {
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 24px;
@@ -556,28 +638,30 @@ section { padding: 96px 0; }
 .footer-logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 18px; }
 .footer-logo-icon {
   width: 28px; height: 28px; border-radius: 6px;
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
   display: flex; align-items: center; justify-content: center;
   font-weight: 800; font-size: 11px; color: #fff;
 }
-.footer-tagline { font-size: 13px; color: #64748b; }
+.footer-tagline { font-size: 13px; color: var(--text-muted); }
 .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
-.footer-links a {
-  font-size: 14px; color: #94a3b8; transition: color 0.2s;
-}
+.footer-links a { font-size: 14px; color: var(--text-secondary); transition: color var(--duration); }
 .footer-links a:hover { color: #fff; }
-.footer-links a:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; border-radius: 4px; }
+.footer-links a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 4px; }
 .footer-bottom {
   width: 100%; text-align: center; padding-top: 24px; margin-top: 24px;
-  border-top: 1px solid #1e293b; font-size: 13px; color: #475569;
+  border-top: 1px solid var(--border); font-size: 13px; color: var(--text-faint);
   display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
 }
+
+/* ===== COUNT-UP ===== */
+.count-up { transition: color 0.4s var(--ease), text-shadow 0.4s var(--ease); }
+.count-up.counting { text-shadow: 0 0 24px rgba(59,130,246,0.3); }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1200px) {
   .pricing-grid { grid-template-columns: repeat(2, 1fr); }
-  .problem-cards { grid-template-columns: repeat(2, 1fr); }
-  .social-metrics { grid-template-columns: repeat(2, 1fr); }
+  .pain-grid { grid-template-columns: repeat(3, 1fr); }
+  .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -587,21 +671,26 @@ section { padding: 96px 0; }
   section { padding: 64px 0; }
   .hero { padding: 120px 0 64px; min-height: auto; }
   .hero h1 { font-size: clamp(32px, 8vw, 48px); }
+  .hero-metrics { flex-direction: column; gap: 20px; }
 
-  .social-metrics { grid-template-columns: 1fr; gap: 16px; }
-  .social-metric { padding: 24px 16px; }
-
-  .problem-cards { grid-template-columns: 1fr; }
+  .pain-grid { grid-template-columns: 1fr; }
 
   .feature-block { grid-template-columns: 1fr; gap: 40px; }
   .feature-block.reverse .feature-text { order: 1; }
   .feature-block.reverse .feature-mockup { order: 2; }
 
-  .steps { grid-template-columns: 1fr 1fr; }
-  .steps::before { display: none; }
+  .ce3-grid { grid-template-columns: 1fr; gap: 48px; }
+
+  .cb-steps-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .cb-steps-grid::before { display: none; }
+
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+  .steps-grid::before { display: none; }
 
   .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
   .pricing-card.featured { order: -1; }
+
+  .testimonials-grid { grid-template-columns: 1fr; }
 
   .hero-buttons { flex-direction: column; align-items: center; }
   .hero-buttons .btn { width: 100%; max-width: 320px; }
@@ -612,69 +701,45 @@ section { padding: 96px 0; }
 
 @media (max-width: 480px) {
   .container { padding: 0 16px; }
-  .hero-metrics { flex-direction: column; gap: 12px; }
-  .steps { grid-template-columns: 1fr; }
+  .cb-steps-grid { grid-template-columns: 1fr; }
+  .steps-grid { grid-template-columns: 1fr; }
+  .ce3-compare-header span { padding: 12px 16px; font-size: 11px; }
+  .ce3-compare-body .col { padding: 16px; }
+  .ce3-compare-stat .stat-value { font-size: 28px; }
 }
 
-/* ===== COUNT-UP ANIMATIONS ===== */
-.count-up-positive {
-  transition: color 0.4s ease-out, text-shadow 0.4s ease-out;
-}
-.count-up-positive.counting {
-  color: #60a5fa;
-  text-shadow: 0 0 24px rgba(59,130,246,0.3);
-}
-.count-up-positive.done {
-  color: #3b82f6;
-  text-shadow: 0 0 32px rgba(59,130,246,0.25);
-}
-
-.count-up-negative {
-  transition: color 0.4s ease-out, text-shadow 0.4s ease-out;
-}
-.count-up-negative.counting {
-  color: #f97316;
-  text-shadow: 0 0 20px rgba(249,115,22,0.3);
-}
-.count-up-negative.done {
-  color: #ef4444;
-  text-shadow: 0 0 24px rgba(239,68,68,0.2);
-}
-
-.problem-card.pulse-alert {
-  animation: borderPulse 0.6s ease-in-out 3;
-}
-@keyframes borderPulse {
-  0%, 100% { border-color: rgba(239,68,68,0.25); box-shadow: none; }
-  50% { border-color: rgba(249,115,22,0.6); box-shadow: 0 0 20px rgba(249,115,22,0.1); }
-}
+/* ===== REDUCED MOTION ===== */
 @media (prefers-reduced-motion: reduce) {
-  .problem-card.pulse-alert { animation: none; }
-  .count-up-positive, .count-up-negative { transition: none; }
-}
-
-.count-up-negative .alert-arrow {
-  font-size: 0.7em; margin-right: 4px; display: inline;
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .fade-in { opacity: 1; transform: none; }
+  .hero-grid { animation: none; opacity: 0.4; }
+  .hero-badge { animation: none; }
+  .chat-typing span { animation: none; opacity: 0.6; }
+  html { scroll-behavior: auto; }
 }
 </style>
 </head>
 <body>
 
+<!-- Skip Link (Accessibility: WCAG skip-links) -->
+<a href="#main-content" class="skip-link">Pular para o conteudo principal</a>
+
 <!-- ===== NAVBAR ===== -->
-<nav class="navbar" role="navigation" aria-label="Navegação principal">
+<nav class="navbar" role="navigation" aria-label="Navegacao principal">
   <div class="container">
-    <a href="#" class="nav-logo" aria-label="SyncDefend - Ir para o início">
+    <a href="#" class="nav-logo" aria-label="SyncDefend - Ir para o inicio">
       <div class="nav-logo-icon" aria-hidden="true">SD</div>
       SyncDefend
     </a>
     <div class="nav-links">
       <a href="#funcionalidades">Funcionalidades</a>
+      <a href="#como-funciona">Como funciona</a>
       <a href="#planos">Planos</a>
       <a href="#faq">FAQ</a>
     </div>
     <div class="nav-actions">
       <a href="https://app.syncdefend.space/" class="btn btn-outline">Entrar</a>
-      <a href="https://app.syncdefend.space/" class="btn btn-primary">Começar grátis</a>
+      <a href="https://app.syncdefend.space/" class="btn btn-primary">Testar 14 dias gratis</a>
     </div>
     <button class="nav-mobile-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menu">
       <span></span>
@@ -682,254 +747,303 @@ section { padding: 96px 0; }
   </div>
   <div class="nav-mobile-menu" id="mobile-menu" role="menu">
     <a href="#funcionalidades" role="menuitem">Funcionalidades</a>
+    <a href="#como-funciona" role="menuitem">Como funciona</a>
     <a href="#planos" role="menuitem">Planos</a>
     <a href="#faq" role="menuitem">FAQ</a>
     <a href="https://app.syncdefend.space/" class="btn btn-outline" role="menuitem">Entrar</a>
-    <a href="https://app.syncdefend.space/" class="btn btn-primary" role="menuitem">Começar grátis</a>
+    <a href="https://app.syncdefend.space/" class="btn btn-primary" role="menuitem">Testar 14 dias gratis</a>
   </div>
 </nav>
 
 <!-- ===== HERO ===== -->
+<main id="main-content">
 <section class="hero" id="inicio">
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="hero-grid" aria-hidden="true"></div>
   <div class="container">
     <div class="fade-in">
-      <div class="hero-badge badge-glow">
+      <div class="hero-badge">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1l1.5 3.5L13 6l-3.5 1.5L8 11 6.5 7.5 3 6l3.5-1.5L8 1z" fill="#3b82f6"/></svg>
-        Novo &middot; IA de Defesa para E-commerce
+        Unico no Brasil com CE3.0 da Visa
       </div>
     </div>
-    <h1 class="fade-in">Sua loja Shopify.<br><span class="highlight">Defendida por IA.</span></h1>
-    <p class="hero-sub fade-in">Responda todos os e-mails de clientes automaticamente, elimine chargebacks antes que aconteçam e recupere carrinhos abandonados &mdash; tudo em um único painel.</p>
+    <h1 class="fade-in">Sua loja Shopify perde dinheiro<br>enquanto voce dorme.<br><span class="highlight">A IA resolve isso.</span></h1>
+    <p class="hero-sub fade-in">Emails respondidos em segundos. Chargebacks vencidos com evidencias automaticas. Carrinhos abandonados recuperados com IA que sabe exatamente onde o cliente parou. Tudo em um painel.</p>
     <div class="hero-buttons fade-in">
-      <a href="https://app.syncdefend.space/" class="btn btn-primary btn-lg">Começar grátis por 14 dias &rarr;</a>
-      <a href="#como-funciona" class="btn btn-outline btn-lg">Ver como funciona</a>
+      <a href="https://app.syncdefend.space/" class="btn btn-primary btn-lg">Comecar 14 dias gratis
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#funcionalidades" class="btn btn-outline btn-lg">Ver funcionalidades</a>
     </div>
-    <p class="hero-disclaimer fade-in">Sem cartão necessário nos primeiros 14 dias &middot; Cancele quando quiser</p>
+    <div class="hero-trust fade-in">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z" fill="#22c55e"/></svg>
+      Sem cartao de credito &middot; Setup em 5 minutos &middot; Cancele quando quiser
+    </div>
     <div class="hero-metrics fade-in">
-      <div class="hero-metric"><strong>R$ 0</strong> cobrado nos primeiros 14 dias</div>
-      <div class="hero-metric"><strong>5 min</strong> para configurar tudo</div>
-      <div class="hero-metric"><strong>Shopify</strong> integração nativa</div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== SOCIAL PROOF ===== -->
-<section class="social-proof" id="prova-social">
-  <div class="container">
-    <p class="section-label fade-in">Protegendo e-commerces em todo o Brasil</p>
-    <div class="social-metrics">
-      <div class="social-metric fade-in">
-        <div class="number count-up-positive" data-target="97" data-suffix="%" data-decimals="0">0%</div>
-        <div class="label">Chargebacks respondidos automaticamente</div>
+      <div class="hero-metric">
+        <div class="metric-value count-up" data-target="71" data-suffix="%">0%</div>
+        <div class="metric-label">Taxa de vitoria em disputas</div>
       </div>
-      <div class="social-metric fade-in">
-        <div class="number count-up-positive" data-target="3.2" data-suffix="x" data-decimals="1" data-separator=",">0,0x</div>
-        <div class="label">Aumento médio na taxa de recuperação de disputas</div>
+      <div class="hero-metric">
+        <div class="metric-value count-up" data-target="3.2" data-suffix="x" data-decimals="1" data-separator=",">0,0x</div>
+        <div class="metric-label">Mais chances de vencer chargebacks</div>
       </div>
-      <div class="social-metric fade-in">
-        <div class="number count-up-positive" data-target="1847" data-prefix="R$" data-suffix="" data-decimals="0" data-thousands=".">R$0</div>
-        <div class="label">Valor médio recuperado por carrinho abandonado/mês</div>
-      </div>
-      <div class="social-metric fade-in">
-        <div class="number count-up-positive" data-target="71" data-suffix="%" data-decimals="0">0%</div>
-        <div class="label">Taxa de vitória em disputas com evidências completas submetidas automaticamente</div>
-      </div>
-    </div>
-    <div class="logos-section" aria-label="Marcas que confiam no SyncDefend">
-      <div class="logos-track">
-        <div class="logo-placeholder">ModaBR</div>
-        <div class="logo-placeholder">TechStore</div>
-        <div class="logo-placeholder">BeautyShop</div>
-        <div class="logo-placeholder">CasaDecor</div>
-        <div class="logo-placeholder">FitWear</div>
-        <div class="logo-placeholder">PetVida</div>
-        <div class="logo-placeholder">AromasCo</div>
-        <div class="logo-placeholder">UrbanStyle</div>
-        <div class="logo-placeholder">NaturaBem</div>
-        <div class="logo-placeholder">SportMax</div>
-        <!-- Duplicate for seamless loop -->
-        <div class="logo-placeholder">ModaBR</div>
-        <div class="logo-placeholder">TechStore</div>
-        <div class="logo-placeholder">BeautyShop</div>
-        <div class="logo-placeholder">CasaDecor</div>
-        <div class="logo-placeholder">FitWear</div>
-        <div class="logo-placeholder">PetVida</div>
-        <div class="logo-placeholder">AromasCo</div>
-        <div class="logo-placeholder">UrbanStyle</div>
-        <div class="logo-placeholder">NaturaBem</div>
-        <div class="logo-placeholder">SportMax</div>
+      <div class="hero-metric">
+        <div class="metric-value count-up" data-target="30" data-suffix="s">0s</div>
+        <div class="metric-label">Tempo medio de resposta da IA</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== PROBLEM ===== -->
-<section class="problem fade-in">
+<!-- ===== PAIN SECTION ===== -->
+<section class="pain fade-in" id="problema">
+  <div class="pain-bg" aria-hidden="true"></div>
   <div class="container">
-    <h2 class="section-title fade-in">Cada chargeback não respondido<br>custa mais do que você imagina.</h2>
-    <div class="problem-cards">
-      <div class="problem-card fade-in">
-        <div class="number count-up-negative" data-target="800" data-prefix="R$" data-suffix="" data-decimals="0">R$0</div>
-        <div class="desc">Custo médio de um único chargeback perdido (produto + taxa da operadora)</div>
+    <p class="section-label fade-in">O problema que voce conhece bem</p>
+    <h2 class="section-title fade-in">Tres vazamentos de receita.<br>Um unico culpado: falta de automacao.</h2>
+    <p class="section-sub fade-in">Enquanto voce responde emails manualmente, disputas vencem o prazo e carrinhos esfriam. O resultado? Dinheiro que sai e nao volta.</p>
+    <div class="pain-grid">
+      <div class="pain-card fade-in">
+        <div class="pain-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="pain-stat">68%</div>
+        <h3>Suporte lento vira disputa</h3>
+        <p>Emails nao respondidos em 24h geram frustacao. Clientes frustrados abrem chargebacks. Cada email ignorado e uma bomba-relogio.</p>
       </div>
-      <div class="problem-card fade-in">
-        <div class="number count-up-negative" data-target="68" data-suffix="%" data-decimals="0">0%</div>
-        <div class="desc">E-mails de suporte não respondidos em até 24h viram disputas</div>
+      <div class="pain-card fade-in">
+        <div class="pain-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="pain-stat">R$800</div>
+        <h3>Cada chargeback custa caro</h3>
+        <p>Produto perdido + taxa da operadora + penalidade. Sem evidencias, a taxa de vitoria fica em 23%. Com CE3.0 do SyncDefend, sobe para 71%.</p>
       </div>
-      <div class="problem-card fade-in">
-        <div class="number count-up-negative" data-target="2400" data-prefix="R$" data-suffix="" data-decimals="0" data-thousands=".">R$0</div>
-        <div class="desc">Valor médio de carrinhos abandonados sem recuperação por mês</div>
-      </div>
-      <div class="problem-card fade-in">
-        <div class="number count-up-negative" data-target="23" data-suffix="%" data-decimals="0">0%</div>
-        <div class="desc">Taxa média de vitória em chargebacks sem evidências submetidas — contra 71% com evidências completas</div>
+      <div class="pain-card fade-in">
+        <div class="pain-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        </div>
+        <div class="pain-stat">R$2.400</div>
+        <h3>Carrinhos abandonados sem acao</h3>
+        <p>Valor medio perdido por mes sem recuperacao. Emails genericos nao funcionam. A IA do SyncDefend sabe se o cliente parou no frete, no cartao ou no endereco.</p>
       </div>
     </div>
-    <p class="problem-bottom fade-in">O <strong>SyncDefend</strong> resolve os três problemas simultaneamente, com IA que trabalha 24 horas por dia.</p>
+    <div class="pain-bottom fade-in">
+      <p>O <strong>SyncDefend</strong> resolve os tres problemas em um unico painel. Sem trocar de ferramenta. Sem equipe extra. A IA trabalha 24h por dia.</p>
+    </div>
   </div>
 </section>
 
 <!-- ===== FEATURES ===== -->
 <section class="features-section" id="funcionalidades">
   <div class="container">
-    <h2 class="section-title fade-in">Tudo que sua loja precisa.<br>Em um lugar só.</h2>
-    <div style="height: 56px"></div>
+    <p class="section-label fade-in">Funcionalidades</p>
+    <h2 class="section-title fade-in">Tres ferramentas em uma.<br>Resultados que voce sente no caixa.</h2>
+    <p class="section-sub fade-in">Cada funcionalidade foi construida para resolver um problema real de quem vende na Shopify. Sem frescura, sem complexidade.</p>
 
-    <!-- Feature 1 -->
+    <!-- Feature 1: Support -->
     <div class="feature-block fade-in">
       <div class="feature-text">
-        <div class="feature-badge">Suporte</div>
-        <h3>IA que responde como humano. Porque seus clientes merecem.</h3>
+        <div class="feature-badge support">Suporte automatico</div>
+        <h3>Seus clientes recebem respostas em 30 segundos. Sem contratar ninguem.</h3>
+        <p>A IA le o email, busca os dados do pedido na Shopify e responde como um atendente humano. Em qualquer idioma. 24 horas por dia.</p>
         <ul class="feature-list">
-          <li>Responde e-mails automaticamente em qualquer idioma do mundo</li>
-          <li>Detecta o tom e adapta a resposta ao perfil do cliente</li>
-          <li>Nunca revela que é IA — atendimento humanizado garantido</li>
-          <li>Busca dados do pedido na Shopify em tempo real</li>
+          <li>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="#3b82f6" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Detecta tom do cliente e adapta a resposta (frustrado, ansioso, neutro)
+          </li>
+          <li>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="#3b82f6" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Puxa rastreio, status e dados do pedido em tempo real da Shopify
+          </li>
+          <li>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="#3b82f6" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Responde em portugues, ingles, espanhol e mais 30 idiomas
+          </li>
+          <li>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="#3b82f6" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Nunca revela que e IA. Atendimento 100% humanizado.
+          </li>
         </ul>
+        <div class="feature-highlight">
+          <strong>Resultado:</strong> Clientes satisfeitos nao abrem chargebacks. E o historico de suporte vira evidencia se uma disputa aparecer depois.
+        </div>
       </div>
-      <div class="feature-mockup">
+      <div class="feature-mockup" aria-label="Simulacao de conversa entre cliente e IA do SyncDefend">
         <div class="mockup-header">
           <div class="mockup-dot" aria-hidden="true"></div>
           <div class="mockup-dot" aria-hidden="true"></div>
           <div class="mockup-dot" aria-hidden="true"></div>
+          <span class="mockup-title">Inbox SyncDefend</span>
         </div>
         <div class="mockup-body">
           <div class="mockup-chat">
             <div class="chat-msg customer">
               <span class="chat-label">Cliente</span>
-              Olá, meu pedido #4821 não chegou ainda. Já fazem 8 dias úteis. Podem me ajudar?
+              My order #4821 hasn't arrived yet. It's been 8 business days. Can you help?
             </div>
             <div class="chat-msg ai">
-              <span class="chat-label">IA SyncDefend</span>
-              Olá, Maria! Já verifiquei seu pedido #4821 e o rastreio indica que ele está em trânsito na unidade dos Correios em Curitiba. A previsão de entrega atualizada é para amanhã. Vou acompanhar e te aviso assim que for entregue!
+              <span class="chat-label">SyncDefend IA</span>
+              Hi Maria! I checked order #4821 and the tracking shows it's in transit at the Curitiba post office. Updated delivery estimate is tomorrow. I'll keep monitoring and notify you as soon as it's delivered!
             </div>
             <div class="chat-msg customer">
               <span class="chat-label">Cliente</span>
-              Muito obrigada! Vocês são ótimos! 😊
+              Thank you so much! You guys are great!
+            </div>
+            <div class="chat-typing" aria-hidden="true">
+              <span></span><span></span><span></span>
+              &nbsp; Respondido em 28s
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Feature 2 -->
+    <!-- Feature 2: Chargeback -->
     <div class="feature-block reverse fade-in">
       <div class="feature-text">
-        <div class="feature-badge">Proteção</div>
-        <h3>Chargeback detectado antes de virar disputa.</h3>
+        <div class="feature-badge protection">Defesa de chargebacks</div>
+        <h3>A IA vence disputas por voce. Com evidencias que operadoras aceitam.</h3>
+        <p>Quando a Shopify Payments abre uma disputa, o SyncDefend sincroniza automaticamente. Analisa o motivo, gera evidencias com CE3.0 da Visa e submete antes do prazo.</p>
         <ul class="feature-list">
-          <li>Score de risco de 0 a 100 para cada e-mail recebido</li>
-          <li>Alertas automáticos para clientes com alto risco</li>
-          <li>Sincronização automática de disputas abertas na Shopify Payments</li>
-          <li>Upload automático de evidências diretamente na Shopify Payments</li>
-          <li>Histórico de suporte usado como prova — aumenta em até 3x a chance de ganhar a disputa</li>
-          <li>Defesa adaptada ao código de motivo de cada operadora (Visa, Mastercard, Amex)</li>
+          <li>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="#ef4444" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#ef4444" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Score de risco 0-100 para cada email recebido
+          </li>
+          <li>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="#ef4444" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#ef4444" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Sincroniza disputas da Shopify Payments automaticamente
+          </li>
+          <li>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="#ef4444" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#ef4444" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Historico de suporte usado como prova: ate 3x mais chances de vencer
+          </li>
+          <li>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="#ef4444" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#ef4444" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Upload automatico de evidencias direto na Shopify Payments
+          </li>
+          <li>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="#ef4444" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#ef4444" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Defesa adaptada ao codigo de motivo (Visa, Mastercard, Amex)
+          </li>
         </ul>
+        <div class="feature-highlight">
+          <strong>Diferencial:</strong> O SyncDefend e a unica plataforma brasileira com Compelling Evidence 3.0 da Visa implementado. Isso muda o jogo.
+        </div>
       </div>
-      <div class="feature-mockup">
+      <div class="feature-mockup" aria-label="Simulacao do painel de disputas do SyncDefend">
         <div class="mockup-header">
           <div class="mockup-dot" aria-hidden="true"></div>
           <div class="mockup-dot" aria-hidden="true"></div>
           <div class="mockup-dot" aria-hidden="true"></div>
+          <span class="mockup-title">Disputas ativas</span>
         </div>
         <div class="mockup-body">
           <div class="mockup-risk-list">
             <div class="risk-item">
-              <span class="email-col">carlos@email.com</span>
-              <span class="subject-col">Não recebi o pedido</span>
-              <span class="risk-score risk-high">92</span>
+              <span class="order-col">#5142</span>
+              <span class="reason-col">Produto nao recebido</span>
+              <span class="status-col"><span class="risk-score risk-high">Gerando CE3.0</span></span>
             </div>
             <div class="risk-item">
-              <span class="email-col">ana@email.com</span>
-              <span class="subject-col">Quero meu dinheiro de volta</span>
-              <span class="risk-score risk-high">87</span>
+              <span class="order-col">#5098</span>
+              <span class="reason-col">Transacao nao reconhecida</span>
+              <span class="status-col"><span class="risk-score risk-med">Evidencia enviada</span></span>
             </div>
             <div class="risk-item">
-              <span class="email-col">lucas@email.com</span>
-              <span class="subject-col">Produto veio errado</span>
-              <span class="risk-score risk-med">54</span>
+              <span class="order-col">#4876</span>
+              <span class="reason-col">Cancelamento nao processado</span>
+              <span class="status-col"><span class="risk-score risk-won">Vencida</span></span>
             </div>
             <div class="risk-item">
-              <span class="email-col">julia@email.com</span>
-              <span class="subject-col">Quando chega meu pedido?</span>
-              <span class="risk-score risk-low">12</span>
+              <span class="order-col">#4801</span>
+              <span class="reason-col">Produto diferente</span>
+              <span class="status-col"><span class="risk-score risk-won">Vencida</span></span>
             </div>
+          </div>
+          <div class="mockup-risk-footer">
+            <span>4 disputas este mes</span>
+            <strong>75% taxa de vitoria</strong>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Feature 3 -->
+    <!-- Feature 3: Cart Recovery -->
     <div class="feature-block fade-in">
       <div class="feature-text">
-        <div class="feature-badge">Receita</div>
-        <h3>Carrinhos abandonados viram vendas. Automaticamente.</h3>
+        <div class="feature-badge revenue">Recuperacao de carrinho</div>
+        <h3>A IA sabe onde o cliente parou. E traz ele de volta.</h3>
+        <p>Nao e um email generico de "voce esqueceu algo". A IA le os dados da Shopify e descobre se o cliente desistiu no frete, no cartao, no endereco ou no checkout. Cada email e personalizado.</p>
         <ul class="feature-list">
-          <li>Sequência inteligente de 3 e-mails com IA</li>
-          <li>Cupons de desconto gerados automaticamente pela IA</li>
-          <li>Análise de qual alavanca converte mais para cada cliente</li>
-          <li>Dashboard de receita recuperada em tempo real</li>
+          <li>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="#22c55e" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#22c55e" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Sequencia de 3 emails com alavancas diferentes: VIP, garantia e urgencia+desconto
+          </li>
+          <li>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="#22c55e" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#22c55e" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Cupons de desconto gerados automaticamente na Shopify
+          </li>
+          <li>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="#22c55e" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#22c55e" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Recuperacao dinamica: sabe se parou no frete, cartao, endereco ou checkout
+          </li>
+          <li>
+            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="#22c55e" stroke-width="1.5"/><path d="M6 10l3 3 5-5" stroke="#22c55e" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Dashboard de receita recuperada em tempo real
+          </li>
         </ul>
+        <div class="feature-highlight">
+          <strong>Exemplo real:</strong> Cliente parou na tela de frete? O email 1 oferece exclusividade VIP. Nao abriu? O email 2 reforça a garantia. Ainda nao comprou? O email 3 envia cupom com urgencia.
+        </div>
       </div>
-      <div class="feature-mockup">
+      <div class="feature-mockup" aria-label="Simulacao da sequencia de recuperacao de carrinho">
         <div class="mockup-header">
           <div class="mockup-dot" aria-hidden="true"></div>
           <div class="mockup-dot" aria-hidden="true"></div>
           <div class="mockup-dot" aria-hidden="true"></div>
+          <span class="mockup-title">Sequencia de recuperacao</span>
         </div>
         <div class="mockup-body">
-          <div class="mockup-chart">
-            <div class="chart-header">
-              <div>
-                <div class="chart-label">Receita recuperada (Mar)</div>
-                <div class="chart-value">R$ 4.238</div>
+          <div class="mockup-email-seq">
+            <div class="email-step">
+              <div class="email-step-num step-1">1</div>
+              <div class="email-step-content">
+                <div class="step-title">Exclusividade VIP</div>
+                <div class="step-detail">Enviado 1h apos abandono &middot; Detectou: parou no frete</div>
               </div>
-              <div class="chart-label" style="color:#22c55e;">+34% vs. fev</div>
+              <div class="step-rate green">42% abertura</div>
             </div>
-            <div class="chart-bars">
-              <div class="chart-bar" style="height:30%"><span class="chart-bar-label">Sem</span></div>
-              <div class="chart-bar" style="height:45%"><span class="chart-bar-label">Seg</span></div>
-              <div class="chart-bar" style="height:65%"><span class="chart-bar-label">Ter</span></div>
-              <div class="chart-bar" style="height:50%"><span class="chart-bar-label">Qua</span></div>
-              <div class="chart-bar" style="height:80%"><span class="chart-bar-label">Qui</span></div>
-              <div class="chart-bar" style="height:95%"><span class="chart-bar-label">Sex</span></div>
-              <div class="chart-bar" style="height:70%"><span class="chart-bar-label">Sáb</span></div>
+            <div class="email-step">
+              <div class="email-step-num step-2">2</div>
+              <div class="email-step-content">
+                <div class="step-title">Reforco de garantia</div>
+                <div class="step-detail">Enviado 24h depois &middot; Destaca politica de troca</div>
+              </div>
+              <div class="step-rate green">31% abertura</div>
             </div>
-            <div class="chart-stats">
-              <div>
-                <div class="chart-stat-value">127</div>
-                <div class="chart-stat-label">Carrinhos recuperados</div>
+            <div class="email-step">
+              <div class="email-step-num step-3">3</div>
+              <div class="email-step-content">
+                <div class="step-title">Urgencia + cupom 10%</div>
+                <div class="step-detail">Enviado 48h depois &middot; Cupom gerado na Shopify</div>
               </div>
-              <div>
-                <div class="chart-stat-value">38%</div>
-                <div class="chart-stat-label">Taxa de conversão</div>
-              </div>
-              <div>
-                <div class="chart-stat-value">R$ 33</div>
-                <div class="chart-stat-label">Ticket médio</div>
-              </div>
+              <div class="step-rate green">27% abertura</div>
+            </div>
+          </div>
+          <div class="mockup-cart-stats">
+            <div>
+              <div class="cart-stat-value">127</div>
+              <div class="cart-stat-label">Carrinhos recuperados</div>
+            </div>
+            <div>
+              <div class="cart-stat-value">38%</div>
+              <div class="cart-stat-label">Taxa de conversao</div>
+            </div>
+            <div>
+              <div class="cart-stat-value">R$4.238</div>
+              <div class="cart-stat-label">Receita recuperada</div>
             </div>
           </div>
         </div>
@@ -938,41 +1052,99 @@ section { padding: 96px 0; }
   </div>
 </section>
 
-<!-- ===== CHARGEBACK FLOW ===== -->
-<section class="chargeback-flow" id="chargeback">
-  <div class="chargeback-flow-bg" aria-hidden="true"></div>
+<!-- ===== CE3.0 EXCLUSIVE SECTION ===== -->
+<section class="ce3-section" id="ce3">
+  <div class="ce3-bg" aria-hidden="true"></div>
   <div class="container">
-    <h2 class="section-title fade-in">Chargeback? A IA responde por você.</h2>
-    <p class="section-sub fade-in">Integração direta com Shopify Payments — do alerta à evidência, tudo automático.</p>
-    <div class="cb-steps">
-      <div class="cb-step fade-in">
-        <div class="cb-step-icon" aria-hidden="true">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <div class="ce3-grid">
+      <div class="ce3-content fade-in">
+        <div class="ce3-badge">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1l1.5 3.5L13 6l-3.5 1.5L8 11 6.5 7.5 3 6l3.5-1.5L8 1z" fill="#3b82f6"/></svg>
+          Exclusivo no Brasil
         </div>
-        <h4>Disputa aberta</h4>
-        <p>A Shopify Payments abre uma disputa. O SyncDefend detecta automaticamente e sincroniza os dados em segundos.</p>
-      </div>
-      <div class="cb-step fade-in">
-        <div class="cb-step-icon" aria-hidden="true">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <h2>Compelling Evidence 3.0 da Visa.<br>A arma que seus concorrentes nao tem.</h2>
+        <p>O CE3.0 e o protocolo mais recente da Visa para disputas de fraude. Ele permite usar compras anteriores do mesmo cliente como prova de que a transacao e legitima. O SyncDefend e o unico no Brasil que implementa isso automaticamente.</p>
+        <div class="ce3-steps">
+          <div class="ce3-step">
+            <div class="ce3-step-num">1</div>
+            <div class="ce3-step-text">
+              <h4>Disputa aberta na Shopify Payments</h4>
+              <p>O SyncDefend detecta e sincroniza em segundos.</p>
+            </div>
+          </div>
+          <div class="ce3-step">
+            <div class="ce3-step-num">2</div>
+            <div class="ce3-step-text">
+              <h4>IA analisa motivo e gera evidencias CE3.0</h4>
+              <p>Historico de suporte + compras anteriores + dados de entrega montam o dossie.</p>
+            </div>
+          </div>
+          <div class="ce3-step">
+            <div class="ce3-step-num">3</div>
+            <div class="ce3-step-text">
+              <h4>Upload automatico antes do prazo</h4>
+              <p>Evidencias enviadas direto na Shopify Payments. Zero acao manual.</p>
+            </div>
+          </div>
         </div>
-        <h4>Evidências geradas</h4>
-        <p>A IA analisa o código de motivo da operadora, busca o histórico de suporte com o cliente e monta o dossiê de defesa.</p>
+        <a href="https://app.syncdefend.space/" class="btn btn-primary">Ativar defesa CE3.0
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </div>
-      <div class="cb-step fade-in">
-        <div class="cb-step-icon" aria-hidden="true">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <div class="ce3-compare fade-in">
+        <div class="ce3-compare-header">
+          <span class="without">Sem SyncDefend</span>
+          <span class="with">Com SyncDefend + CE3.0</span>
         </div>
-        <h4>Upload automático</h4>
-        <p>As evidências são enviadas diretamente para a Shopify Payments antes do prazo, sem nenhuma ação manual.</p>
+        <div class="ce3-compare-body">
+          <div class="col left">
+            <div class="ce3-compare-item bad">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Resposta manual ou sem resposta
+            </div>
+            <div class="ce3-compare-item bad">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Sem evidencias estruturadas
+            </div>
+            <div class="ce3-compare-item bad">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Perde prazo da operadora
+            </div>
+            <div class="ce3-compare-item bad">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Sem historico de suporte como prova
+            </div>
+          </div>
+          <div class="col right">
+            <div class="ce3-compare-item good">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Resposta automatica em 30 segundos
+            </div>
+            <div class="ce3-compare-item good">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              CE3.0 com compras anteriores como prova
+            </div>
+            <div class="ce3-compare-item good">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Upload automatico antes do prazo
+            </div>
+            <div class="ce3-compare-item good">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Todo historico de suporte e evidencia
+            </div>
+          </div>
+        </div>
+        <div class="ce3-compare-stat">
+          <div class="stat left">
+            <div class="stat-value">23%</div>
+            <div class="stat-label">Taxa de vitoria</div>
+          </div>
+          <div class="stat right">
+            <div class="stat-value">71%</div>
+            <div class="stat-label">Taxa de vitoria</div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="cb-highlight fade-in">
-      <blockquote>Lojistas que submetem evidências com histórico de suporte ganham até 3x mais disputas do que os que não submetem nada.</blockquote>
-      <cite>— baseado em dados do setor de gestão de chargebacks</cite>
-    </div>
-    <div class="cb-cta fade-in">
-      <a href="https://app.syncdefend.space/" class="btn btn-primary btn-lg">Ver como funciona &rarr;</a>
     </div>
   </div>
 </section>
@@ -980,145 +1152,271 @@ section { padding: 96px 0; }
 <!-- ===== HOW IT WORKS ===== -->
 <section class="how-it-works" id="como-funciona">
   <div class="container">
-    <h2 class="section-title fade-in">Configure em menos de 5 minutos.</h2>
-    <div style="height: 56px"></div>
-    <div class="steps">
-      <div class="step fade-in">
+    <p class="section-label fade-in">Como funciona</p>
+    <h2 class="section-title fade-in">Do cadastro a IA funcionando:<br>menos de 5 minutos.</h2>
+    <p class="section-sub fade-in">Sem instalacao de codigo. Sem configuracao tecnica. Sem equipe de TI.</p>
+    <div class="steps-grid">
+      <div class="step-card fade-in">
         <div class="step-number">1</div>
         <h4>Crie sua conta</h4>
-        <p>Cadastro simples com e-mail e senha</p>
+        <p>Email e senha. Pronto.</p>
       </div>
-      <div class="step fade-in">
+      <div class="step-card fade-in">
         <div class="step-number">2</div>
         <h4>Conecte sua loja</h4>
-        <p>Integração nativa com Shopify em 2 cliques</p>
+        <p>Integracao nativa com Shopify em 2 cliques.</p>
       </div>
-      <div class="step fade-in">
+      <div class="step-card fade-in">
         <div class="step-number">3</div>
-        <h4>Configure seu e-mail</h4>
-        <p>Gmail, Outlook, Hostinger e mais</p>
+        <h4>Configure seu email</h4>
+        <p>Gmail, Outlook, Hostinger e qualquer provedor IMAP/SMTP.</p>
       </div>
-      <div class="step fade-in">
+      <div class="step-card fade-in">
         <div class="step-number">4</div>
-        <h4>Pronto</h4>
-        <p>A IA começa a trabalhar imediatamente</p>
+        <h4>IA ativa</h4>
+        <p>Suporte, chargebacks e carrinhos. Tudo automatico.</p>
       </div>
     </div>
-    <p class="how-bottom fade-in">Sem instalação de código. Sem configuração técnica. Sem equipe de TI.</p>
+    <p class="how-bottom fade-in">A maioria dos usuarios configura tudo no primeiro cafe da manha.</p>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="testimonials" id="depoimentos">
+  <div class="container">
+    <p class="section-label fade-in">O que dizem nossos clientes</p>
+    <h2 class="section-title fade-in">Quem usa, recomenda.</h2>
+    <p class="section-sub fade-in">Donos de loja Shopify que pararam de perder dinheiro com chargeback e suporte manual.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-in">
+        <div class="testimonial-stars" aria-label="5 estrelas">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+        </div>
+        <blockquote>"Eu perdia em media 3 chargebacks por mes. Desde que ativei o SyncDefend, ganhei 4 dos ultimos 5. O CE3.0 faz diferenca real."</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" aria-hidden="true">RC</div>
+          <div>
+            <div class="testimonial-name">Rafael Costa</div>
+            <div class="testimonial-role">Dono da TechStore BR</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-in">
+        <div class="testimonial-stars" aria-label="5 estrelas">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+        </div>
+        <blockquote>"Minha equipe gastava 4 horas por dia respondendo emails. Agora a IA responde em 30 segundos e os clientes elogiam o atendimento. Ninguem percebe que e automatico."</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" aria-hidden="true">AS</div>
+          <div>
+            <div class="testimonial-name">Ana Santos</div>
+            <div class="testimonial-role">Fundadora da BeautyShop</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-in">
+        <div class="testimonial-stars" aria-label="5 estrelas">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b" aria-hidden="true"><path d="M8 1.33l1.79 3.62 4 .58-2.9 2.82.68 3.98L8 10.49l-3.57 1.88.68-3.98-2.9-2.82 4-.58L8 1.33z"/></svg>
+        </div>
+        <blockquote>"A recuperacao de carrinho trouxe R$3.800 no primeiro mes. A IA sabia que o cliente tinha parado no frete e mandou o email certo. Isso nenhum concorrente faz."</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" aria-hidden="true">ML</div>
+          <div>
+            <div class="testimonial-name">Marcos Lima</div>
+            <div class="testimonial-role">CEO da FitWear</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ===== PRICING ===== -->
 <section class="pricing" id="planos">
   <div class="container">
-    <h2 class="section-title fade-in">Planos simples. Sem surpresas.</h2>
-    <p class="section-sub fade-in">14 dias grátis em todos os planos. Cancele quando quiser.</p>
+    <p class="section-label fade-in">Planos</p>
+    <h2 class="section-title fade-in">Escolha o plano do tamanho da sua loja.</h2>
+    <p class="section-sub fade-in">Todos incluem 14 dias gratis. Sem cartao de credito. Cancele quando quiser.</p>
     <div class="pricing-grid">
 
       <!-- Starter -->
       <div class="pricing-card fade-in">
         <div class="pricing-name">Starter</div>
-        <div class="pricing-price">R$197 <span>/mês</span></div>
+        <div class="pricing-price">R$197 <span>/mes</span></div>
+        <div class="pricing-desc">Para quem esta comecando e quer protecao basica.</div>
         <ul class="pricing-features">
-          <li>300 e-mails/mês inclusos</li>
-          <li>1 loja Shopify</li>
-          <li>Suporte com IA 24h</li>
-          <li>Detector de chargeback</li>
-          <li>R$1,00 por e-mail extra</li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            300 emails/mes inclusos
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            1 loja Shopify
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Suporte IA + Detector de chargeback
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            R$1,00 por email extra
+          </li>
         </ul>
-        <a href="https://app.syncdefend.space/" class="btn btn-outline">Começar grátis</a>
+        <a href="https://app.syncdefend.space/" class="btn btn-outline">Comecar gratis</a>
       </div>
 
       <!-- Business -->
       <div class="pricing-card featured fade-in">
         <div class="pricing-popular">Mais popular</div>
         <div class="pricing-name">Business</div>
-        <div class="pricing-price">R$397 <span>/mês</span></div>
+        <div class="pricing-price">R$397 <span>/mes</span></div>
+        <div class="pricing-desc">Para lojas em crescimento que vendem internacional.</div>
         <ul class="pricing-features">
-          <li>900 e-mails/mês inclusos</li>
-          <li>3 lojas Shopify</li>
-          <li>Suporte com IA 24h</li>
-          <li>Detector de chargeback</li>
-          <li>Recuperação de carrinho IA</li>
-          <li>Até 2 membros da equipe</li>
-          <li>R$0,70 por e-mail extra</li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            900 emails/mes inclusos
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            3 lojas Shopify
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Tudo do Starter + Recuperacao de carrinho IA
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ate 2 membros da equipe
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            R$0,70 por email extra
+          </li>
         </ul>
-        <a href="https://app.syncdefend.space/" class="btn btn-primary">Começar grátis</a>
+        <a href="https://app.syncdefend.space/" class="btn btn-primary">Comecar gratis</a>
       </div>
 
       <!-- Scale -->
       <div class="pricing-card fade-in">
         <div class="pricing-name">Scale</div>
-        <div class="pricing-price">R$597 <span>/mês</span></div>
+        <div class="pricing-price">R$597 <span>/mes</span></div>
+        <div class="pricing-desc">Para operacoes maiores com varias lojas.</div>
         <ul class="pricing-features">
-          <li>1.500 e-mails/mês inclusos</li>
-          <li>5 lojas Shopify</li>
-          <li>Todas as funcionalidades</li>
-          <li>Até 5 membros da equipe</li>
-          <li>R$0,60 por e-mail extra</li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            1.500 emails/mes inclusos
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            5 lojas Shopify
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Todas as funcionalidades
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ate 5 membros da equipe
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            R$0,60 por email extra
+          </li>
         </ul>
-        <a href="https://app.syncdefend.space/" class="btn btn-outline">Começar grátis</a>
+        <a href="https://app.syncdefend.space/" class="btn btn-outline">Comecar gratis</a>
       </div>
 
       <!-- High Scale -->
       <div class="pricing-card fade-in">
         <div class="pricing-name">High Scale</div>
-        <div class="pricing-price">R$997 <span>/mês</span></div>
+        <div class="pricing-price">R$997 <span>/mes</span></div>
+        <div class="pricing-desc">Para marcas de alto volume que precisam de tudo.</div>
         <ul class="pricing-features">
-          <li>3.000 e-mails/mês inclusos</li>
-          <li>10 lojas Shopify</li>
-          <li>Todas as funcionalidades</li>
-          <li>Até 10 membros da equipe</li>
-          <li>R$0,50 por e-mail extra</li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            3.000 emails/mes inclusos
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            10 lojas Shopify
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Todas as funcionalidades
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ate 10 membros da equipe
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            R$0,50 por email extra
+          </li>
         </ul>
-        <a href="https://app.syncdefend.space/" class="btn btn-outline">Começar grátis</a>
+        <a href="https://app.syncdefend.space/" class="btn btn-outline">Comecar gratis</a>
       </div>
 
     </div>
-    <p class="pricing-footer fade-in">Todos os planos incluem: 14 dias grátis &middot; Suporte técnico &middot; Atualizações automáticas &middot; Cancelamento sem multa</p>
+    <p class="pricing-footer fade-in">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1a7 7 0 100 14A7 7 0 008 1z" stroke="#3b82f6" stroke-width="1.2"/><path d="M6 8l2 2 4-4" stroke="#3b82f6" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      14 dias gratis &middot; Sem cartao &middot; Suporte tecnico &middot; Atualizacoes automaticas &middot; Cancele sem multa
+    </p>
   </div>
 </section>
 
 <!-- ===== FAQ ===== -->
 <section class="faq" id="faq">
   <div class="container">
+    <p class="section-label fade-in">Duvidas</p>
     <h2 class="section-title fade-in">Perguntas frequentes.</h2>
-    <div style="height: 48px"></div>
+    <div style="height: 32px"></div>
     <div class="faq-list">
 
       <div class="faq-item fade-in">
         <button class="faq-question" aria-expanded="false">
-          Preciso saber programar para usar o SyncDefend?
+          Preciso saber programar para usar?
           <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
         </button>
         <div class="faq-answer" role="region">
-          <div class="faq-answer-inner">Não. A configuração é feita pelo próprio painel em menos de 5 minutos. Nenhuma linha de código necessária.</div>
+          <div class="faq-answer-inner">Nao. A configuracao e feita pelo painel em menos de 5 minutos. Voce conecta sua loja Shopify, configura o email e a IA comeca a trabalhar. Zero codigo.</div>
         </div>
       </div>
 
       <div class="faq-item fade-in">
         <button class="faq-question" aria-expanded="false">
-          A IA realmente parece um humano?
+          Meus clientes vao perceber que e IA?
           <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
         </button>
         <div class="faq-answer" role="region">
-          <div class="faq-answer-inner">Sim. O SyncDefend usa Claude, um dos modelos de IA mais avançados do mundo, configurado para responder como um atendente real com o nome e tom que você definir.</div>
+          <div class="faq-answer-inner">Nao. A IA responde com o nome e tom que voce definir. Ela adapta o estilo de escrita ao perfil do cliente e nunca revela que e automatizada. Clientes frequentemente elogiam o "atendimento".</div>
         </div>
       </div>
 
       <div class="faq-item fade-in">
         <button class="faq-question" aria-expanded="false">
-          O que acontece se eu ultrapassar o limite de e-mails?
+          O que e Compelling Evidence 3.0 (CE3.0)?
           <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
         </button>
         <div class="faq-answer" role="region">
-          <div class="faq-answer-inner">Você é cobrado apenas pelo excedente, conforme o valor do seu plano (entre R$0,50 e R$1,00 por e-mail adicional). Sem interrupção do serviço.</div>
+          <div class="faq-answer-inner">E o protocolo mais recente da Visa para disputas de fraude. Permite usar compras anteriores do mesmo cartao, endereco IP e dispositivo como evidencia de que a transacao e legitima. O SyncDefend e o unico no Brasil que gera essas evidencias automaticamente e submete direto na Shopify Payments.</div>
         </div>
       </div>
 
       <div class="faq-item fade-in">
         <button class="faq-question" aria-expanded="false">
-          Funciona com qualquer e-mail?
+          Funciona com qualquer provedor de email?
           <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
         </button>
         <div class="faq-answer" role="region">
@@ -1128,21 +1426,31 @@ section { padding: 96px 0; }
 
       <div class="faq-item fade-in">
         <button class="faq-question" aria-expanded="false">
-          Meus clientes vão saber que é IA?
+          O que acontece se eu ultrapassar o limite de emails?
           <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
         </button>
         <div class="faq-answer" role="region">
-          <div class="faq-answer-inner">Não, a menos que você queira. A IA responde como um atendente humano com o nome que você configurar.</div>
+          <div class="faq-answer-inner">O servico continua funcionando normalmente. Voce paga apenas o excedente conforme o valor do seu plano (entre R$0,50 e R$1,00 por email extra). Sem interrupcao, sem surpresa.</div>
         </div>
       </div>
 
       <div class="faq-item fade-in">
         <button class="faq-question" aria-expanded="false">
-          Como funciona a integração com a Shopify?
+          Como funciona a integracao com a Shopify?
           <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
         </button>
         <div class="faq-answer" role="region">
-          <div class="faq-answer-inner">Você cria um app personalizado na sua loja Shopify em menos de 5 minutos, copia as credenciais e cola no SyncDefend. Feito isso, a IA já tem acesso aos pedidos, rastreios e chargebacks da sua loja.</div>
+          <div class="faq-answer-inner">Voce cria um app personalizado na sua loja Shopify (leva 2 minutos), copia as credenciais e cola no SyncDefend. A IA passa a ter acesso a pedidos, rastreios, disputas e carrinhos abandonados da sua loja.</div>
+        </div>
+      </div>
+
+      <div class="faq-item fade-in">
+        <button class="faq-question" aria-expanded="false">
+          Posso cancelar a qualquer momento?
+          <span class="faq-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="faq-answer" role="region">
+          <div class="faq-answer-inner">Sim. Sem multa, sem contrato, sem burocracia. Os 14 dias iniciais sao completamente gratis e sem cartao de credito. Se nao gostar, basta nao continuar.</div>
         </div>
       </div>
 
@@ -1154,14 +1462,30 @@ section { padding: 96px 0; }
 <section class="cta-final">
   <div class="cta-final-bg" aria-hidden="true"></div>
   <div class="container">
-    <h2 class="fade-in">Pare de perder dinheiro<br>com chargeback. Comece agora.</h2>
-    <p class="section-sub fade-in">14 dias grátis. Sem cartão de crédito. Setup em minutos.</p>
+    <h2 class="fade-in">Enquanto voce le isso,<br>sua loja pode estar perdendo uma venda.</h2>
+    <p class="section-sub fade-in">Configure em 5 minutos. Teste 14 dias gratis. Veja a IA trabalhar por voce.</p>
     <div class="fade-in">
-      <a href="https://app.syncdefend.space/" class="btn btn-primary btn-lg">Começar grátis agora &rarr;</a>
-      <p class="small-text" style="margin-top:16px; font-size:13px; color:#64748b;">Mais de 14 dias grátis para testar sem compromisso</p>
+      <a href="https://app.syncdefend.space/" class="btn btn-primary btn-lg">Comecar 14 dias gratis
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="cta-trust-row">
+        <div class="cta-trust-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Sem cartao de credito
+        </div>
+        <div class="cta-trust-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Setup em 5 minutos
+        </div>
+        <div class="cta-trust-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 8l3 3 5-5" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Cancele quando quiser
+        </div>
+      </div>
     </div>
   </div>
 </section>
+</main>
 
 <!-- ===== FOOTER ===== -->
 <footer class="footer">
@@ -1171,34 +1495,29 @@ section { padding: 96px 0; }
         <div class="footer-logo-icon" aria-hidden="true">SD</div>
         SyncDefend
       </div>
-      <p class="footer-tagline">Sua loja. Defendida por IA.</p>
+      <p class="footer-tagline">Suporte, chargebacks e carrinhos. Tudo com IA.</p>
     </div>
-    <nav class="footer-links" aria-label="Links do rodapé">
+    <nav class="footer-links" aria-label="Links do rodape">
       <a href="#funcionalidades">Funcionalidades</a>
       <a href="#planos">Planos</a>
       <a href="#faq">FAQ</a>
       <a href="https://app.syncdefend.space/">Entrar</a>
-      <a href="https://app.syncdefend.space/">Cadastrar</a>
+      <a href="https://app.syncdefend.space/">Criar conta</a>
     </nav>
     <div class="footer-bottom">
-      <span>&copy; 2025 SyncDefend &middot; Todos os direitos reservados</span>
-      <a href="#">Política de Privacidade</a>
-      <a href="#">Termos de Uso</a>
+      <span>&copy; 2025 SyncDefend. Todos os direitos reservados.</span>
     </div>
   </div>
 </footer>
 
 <script>
-// ===== Navbar scroll effect =====
+// ===== Navbar scroll =====
 (function() {
   var navbar = document.querySelector('.navbar');
   var scrolled = false;
   function onScroll() {
-    var shouldAdd = window.scrollY > 40;
-    if (shouldAdd !== scrolled) {
-      scrolled = shouldAdd;
-      navbar.classList.toggle('scrolled', shouldAdd);
-    }
+    var s = window.scrollY > 40;
+    if (s !== scrolled) { scrolled = s; navbar.classList.toggle('scrolled', s); }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
@@ -1209,14 +1528,11 @@ section { padding: 96px 0; }
   var toggle = document.querySelector('.nav-mobile-toggle');
   var menu = document.getElementById('mobile-menu');
   if (!toggle || !menu) return;
-
   toggle.addEventListener('click', function() {
     var open = menu.classList.toggle('open');
     toggle.setAttribute('aria-expanded', open);
     toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
   });
-
-  // Close on link click
   menu.querySelectorAll('a').forEach(function(a) {
     a.addEventListener('click', function() {
       menu.classList.remove('open');
@@ -1226,7 +1542,7 @@ section { padding: 96px 0; }
   });
 })();
 
-// ===== Smooth scroll for anchor links =====
+// ===== Smooth scroll =====
 document.querySelectorAll('a[href^="#"]').forEach(function(a) {
   a.addEventListener('click', function(e) {
     var id = this.getAttribute('href');
@@ -1234,14 +1550,13 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
     var target = document.querySelector(id);
     if (target) {
       e.preventDefault();
-      var offset = 80;
-      var pos = target.getBoundingClientRect().top + window.scrollY - offset;
+      var pos = target.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top: pos, behavior: 'smooth' });
     }
   });
 });
 
-// ===== Fade-in on scroll (IntersectionObserver) =====
+// ===== Fade-in (IntersectionObserver) =====
 (function() {
   var els = document.querySelectorAll('.fade-in');
   if (!('IntersectionObserver' in window)) {
@@ -1261,88 +1576,35 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
 
 // ===== Count-Up Animation =====
 (function() {
-  function formatNumber(value, decimals, decSep, thousandsSep, prefix, suffix) {
-    var fixed = value.toFixed(decimals);
-    var parts = fixed.split('.');
-    var intPart = parts[0];
-    var decPart = parts[1] || '';
-
-    if (thousandsSep && intPart.length > 3) {
-      intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, thousandsSep);
-    }
-
-    var result = prefix;
-    result += intPart;
-    if (decimals > 0) result += (decSep || '.') + decPart;
-    result += suffix;
-    return result;
+  function formatNum(v, dec, sep, tSep, pre, suf) {
+    var f = v.toFixed(dec), p = f.split('.'), i = p[0], d = p[1] || '';
+    if (tSep && i.length > 3) i = i.replace(/\B(?=(\d{3})+(?!\d))/g, tSep);
+    return pre + i + (dec > 0 ? (sep || '.') + d : '') + suf;
   }
-
-  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
-
-  function animateCounter(el, isNegative) {
-    var target = parseFloat(el.getAttribute('data-target'));
-    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
-    var prefix = el.getAttribute('data-prefix') || '';
-    var suffix = el.getAttribute('data-suffix') || '';
-    var thousandsSep = el.getAttribute('data-thousands') || '';
-    var decSep = el.getAttribute('data-separator') || '.';
-    var duration = 2000;
-    var start = null;
-
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+  function animate(el) {
+    var target = parseFloat(el.dataset.target);
+    var dec = parseInt(el.dataset.decimals || '0', 10);
+    var pre = el.dataset.prefix || '';
+    var suf = el.dataset.suffix || '';
+    var tSep = el.dataset.thousands || '';
+    var dSep = el.dataset.separator || '.';
+    var dur = 2000, start = null;
     el.classList.add('counting');
-
-    if (isNegative) {
-      var card = el.closest('.problem-card');
-      if (card) card.classList.add('pulse-alert');
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      el.textContent = formatNum(easeOut(p) * target, dec, dSep, tSep, pre, suf);
+      if (p < 1) requestAnimationFrame(step);
+      else { el.textContent = formatNum(target, dec, dSep, tSep, pre, suf); el.classList.remove('counting'); }
     }
-
-    function step(timestamp) {
-      if (!start) start = timestamp;
-      var progress = Math.min((timestamp - start) / duration, 1);
-      var eased = easeOutCubic(progress);
-      var current = eased * target;
-
-      var display = formatNumber(current, decimals, decSep, thousandsSep, prefix, suffix);
-
-      if (isNegative) {
-        el.innerHTML = '<span class="alert-arrow" aria-hidden="true">\u2191</span>' + display;
-      } else {
-        el.textContent = display;
-      }
-
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      } else {
-        var final = formatNumber(target, decimals, decSep, thousandsSep, prefix, suffix);
-        if (isNegative) {
-          el.innerHTML = '<span class="alert-arrow" aria-hidden="true">\u2191</span>' + final;
-        } else {
-          el.textContent = final;
-        }
-        el.classList.remove('counting');
-        el.classList.add('done');
-      }
-    }
-
     requestAnimationFrame(step);
   }
-
   if (!('IntersectionObserver' in window)) return;
-
-  var allCounters = document.querySelectorAll('.count-up-positive, .count-up-negative');
-  var counterObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        var el = entry.target;
-        var isNeg = el.classList.contains('count-up-negative');
-        animateCounter(el, isNeg);
-        counterObserver.unobserve(el);
-      }
-    });
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) { animate(e.target); obs.unobserve(e.target); } });
   }, { threshold: 0.3 });
-
-  allCounters.forEach(function(el) { counterObserver.observe(el); });
+  document.querySelectorAll('.count-up').forEach(function(el) { obs.observe(el); });
 })();
 
 // ===== FAQ Accordion =====
@@ -1352,15 +1614,11 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a) {
       var item = this.closest('.faq-item');
       var answer = item.querySelector('.faq-answer');
       var isOpen = item.classList.contains('open');
-
-      // Close all
-      document.querySelectorAll('.faq-item.open').forEach(function(openItem) {
-        openItem.classList.remove('open');
-        openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-        openItem.querySelector('.faq-answer').style.maxHeight = '0';
+      document.querySelectorAll('.faq-item.open').forEach(function(oi) {
+        oi.classList.remove('open');
+        oi.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        oi.querySelector('.faq-answer').style.maxHeight = '0';
       });
-
-      // Toggle current
       if (!isOpen) {
         item.classList.add('open');
         this.setAttribute('aria-expanded', 'true');
